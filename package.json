@@ -1,0 +1,75 @@
+{
+    "name": "@kbase/ui-components",
+    "version": "0.2.0-alpha.0",
+    "description": "A typescript library to provide react components",
+    "main": "lib/index.js",
+    "types": "lib/index.d.ts",
+    "files": [
+        "/lib/**/*"
+    ],
+    "scripts": {
+        "test": "jest",
+        "copy-assets": "copyfiles -u 1  \"./src/**/*.css\" \"./lib/\"",
+        "clean": "rm -rf ./lib/*",
+        "build": "bash scripts/build.bash",
+        "prepare": "bash scripts/prepare.bash",
+        "prepublish": "jest",
+        "start": "tsc --watch",
+        "generate-api-docs": "typedoc --out api-docs src"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/kbaseIncubator/kbase-ui-components.git"
+    },
+    "keywords": [
+        "kbase",
+        "ui",
+        "lib",
+        "react",
+        "typescript"
+    ],
+    "author": "KBase Developers",
+    "license": "SEE LICENSE IN LICENSE.md",
+    "bugs": {
+        "url": "https://github.com/kbaseIncubator/kbase-ui-components/issues"
+    },
+    "homepage": "https://github.com/kbaseIncubator/kbase-ui-components#readme",
+    "dependencies": {
+        "@kbase/ui-lib": "^0.2.0-alpha.2",
+        "@types/bluebird": "*",
+        "@types/react": "*",
+        "@types/react-dom": "*",
+        "@types/react-redux": "*",
+        "@types/uuid": "*",
+        "antd": "^3.20.7",
+        "axios": "^0.19.0",
+        "bluebird": "^3.5.5",
+        "es-cookie": "^1.2.0",
+        "react": "^16.8.6",
+        "react-dom": "^16.8.6",
+        "react-redux": "^7.0.3",
+        "redux": "^4.0.1",
+        "redux-thunk": "^2.3.0",
+        "typeface-oxygen": "^0.0.72",
+        "typeface-roboto": "^0.0.75",
+        "uuid": "^3.3.2"
+    },
+    "devDependencies": {
+        "@types/enzyme": "3.10.3",
+        "@types/enzyme-adapter-react-16": "1.0.5",
+        "@types/jest": "24.0.18",
+        "copyfiles": "2.1.1",
+        "enzyme": "3.10.0",
+        "enzyme-adapter-react-16": "1.14.0",
+        "eslint": "6.2.1",
+        "eslint-plugin-react": "7.14.3",
+        "jest": "24.9.0",
+        "jest-transform-css": "2.0.0",
+        "ts-jest": "24.0.2",
+        "typedoc": "0.15.0",
+        "typescript": "3.5.3"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
+}

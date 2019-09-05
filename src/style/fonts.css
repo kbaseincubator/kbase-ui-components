@@ -1,0 +1,15 @@
+/* H1 should only be used on the title area of the UI. The total height is 70px with 5px lower border, so the font size, 
+   padding, and margin are arranged to center it vertically within this height.*/
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'RobotoBlack', Arial, sans-serif;
+}
+
+body {
+    font-family: 'Oxygen', Arial, sans-serif;
+}

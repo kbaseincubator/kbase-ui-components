@@ -7,3 +7,4 @@ export { default as NiceElapsedTime } from './components/NiceElapsedTime';
 export { sendTitle, setTitle, navigate } from './redux/integration/actions';
 export { default as AuthGate } from './components/AuthGate';
 export { setView, setParams } from './redux/develop/actions';
+export { default as baseReducer } from './redux/reducers';

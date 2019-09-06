@@ -1,6 +1,6 @@
 {
     "name": "@kbase/ui-components",
-    "version": "0.2.0-alpha.0",
+    "version": "0.2.0-alpha.3",
     "description": "A typescript library to provide react components",
     "main": "lib/index.js",
     "types": "lib/index.d.ts",

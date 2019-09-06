@@ -36,7 +36,6 @@ export default class NiceElapsedTime extends React.Component<NiceElapsedTimeProp
 
     startClock() {
         this.clockTimer = window.setInterval(() => {
-            console.log('tick', Date.now());
             this.setState({
                 clockTime: Date.now()
             })
@@ -45,7 +44,6 @@ export default class NiceElapsedTime extends React.Component<NiceElapsedTimeProp
 
     componentDidMount() {
         if (!this.props.to && this.props.useClock) {
-            console.log('starting clock...');
             this.startClock();
         }
     }

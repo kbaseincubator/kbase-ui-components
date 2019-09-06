@@ -23,7 +23,7 @@ export default class AuthGate extends React.Component<AuthGateProps, AuthGateSta
 
     renderUnauthorized() {
         const message = 'Not authorized - authentication required';
-        return <Alert type="error" message={message} />;
+        return <Alert type="error" message={message} style={{ width: '70%', margin: 'auto' }} />;
     }
 
     render() {

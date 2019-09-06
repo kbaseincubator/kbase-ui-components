@@ -9,10 +9,8 @@ import '../style/fonts.css';
 import '../style/common.css';
 import KBaseIntegrationLoader from './Integration';
 import Root from './Root';
-// import 'antd/dist/antd.css';
 
-
-export interface AppProps {}
+export interface AppProps { }
 
 interface AppState {
     clicks: number;
@@ -37,7 +35,9 @@ export default class AppBase extends React.Component<AppProps, AppState> {
             <Root>
                 <KBaseIntegrationLoader>
                     <div className="Row Row-fullheight Row-scrollable" data-k-b-testhook-component="AppBase">
-                        {this.props.children}
+                        <div className="Col scrollable">
+                            {this.props.children}
+                        </div>
                     </div>
                 </KBaseIntegrationLoader>
             </Root>

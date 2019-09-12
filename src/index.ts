@@ -10,3 +10,4 @@ export { setView, setParams } from './redux/develop/actions';
 export { default as baseReducer } from './redux/reducers';
 export { AppConfig } from './redux/integration/store';
 export { RootState } from './redux/root/store';
+export { default as FlexTabs } from './components/FlexTabs';

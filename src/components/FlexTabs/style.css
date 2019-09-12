@@ -1,0 +1,41 @@
+.FlexTabs {
+    flex: 1 1 0px;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.FlexTabs-header {
+    flex: 0 0 auto;
+    border-bottom: 1px solid rgba(200, 200, 200, 0.5);
+    display: flex;
+    flex-direction: row;
+}
+
+.FlexTabs-body {
+    flex: 1 1 0px;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    transition: opacity 0.5s;
+    /* padding-top: 4px; */
+}
+
+/* .FlexTabs-body {
+    visibility: none;
+}
+
+.FlexTabs-body-active {
+    visibility: visible;
+} */
+
+
+.FlexTabs-tab {
+    padding: 6px 8x;
+    border-bottom: 2px solid transparent;
+    margin-right: 32px;
+}
+
+.FlexTabs-tab-active {
+    border-bottom: 2px solid #1663ba;
+}

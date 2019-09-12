@@ -8,3 +8,5 @@ export { sendTitle, setTitle, navigate } from './redux/integration/actions';
 export { default as AuthGate } from './components/AuthGate';
 export { setView, setParams } from './redux/develop/actions';
 export { default as baseReducer } from './redux/reducers';
+export { AppConfig } from './redux/integration/store';
+export { RootState } from './redux/root/store';

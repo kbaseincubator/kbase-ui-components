@@ -59,9 +59,9 @@ export default class NiceElapsedTime extends React.Component<NiceElapsedTimeProp
         } else {
             elapsed = this.state.clockTime - this.props.from;
         }
-        const [tooltipContent,] = niceElapsed(elapsed, {})
+        const { label: content } = niceElapsed(elapsed, {})
         if (this.props.showTooltip === false) {
-            return <span>{tooltipContent}</span>;
+            return <span>{content}</span>;
         }
 
         let tooltip;
@@ -69,16 +69,16 @@ export default class NiceElapsedTime extends React.Component<NiceElapsedTimeProp
             tooltip = (
                 <span>
                     {this.props.tooltipPrefix}
-                    <span>{tooltipContent}</span>
+                    <span>{content}</span>
                 </span>
             );
         } else {
-            tooltip = <span>{tooltipContent}</span>;
+            tooltip = <span>{content}</span>;
         }
-        const [content, time] = niceElapsed(elapsed, { precision: this.props.precision })
+        const { label: tooltipContent, value } = niceElapsed(elapsed, { precision: this.props.precision })
         return (
             <Tooltip placement="bottomRight" title={tooltip}>
-                {content}
+                {tooltipContent}
             </Tooltip>
         );
     }

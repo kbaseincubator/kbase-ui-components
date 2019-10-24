@@ -1,6 +1,6 @@
 {
     "name": "@kbase/ui-components",
-    "version": "0.2.1-alpha.0",
+    "version": "0.2.1-alpha.1",
     "description": "A typescript library to provide react components",
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
@@ -45,7 +45,7 @@
         "axios": "^0.19.0",
         "bluebird": "^3.5.5",
         "es-cookie": "^1.2.0",
-        "react": "^16.8.6",
+        "react": "^16.11.6",
         "react-dom": "^16.8.6",
         "react-redux": "^7.0.3",
         "redux": "^4.0.1",
@@ -57,17 +57,17 @@
     "devDependencies": {
         "@types/enzyme": "3.10.3",
         "@types/enzyme-adapter-react-16": "1.0.5",
-        "@types/jest": "24.0.18",
+        "@types/jest": "24.0.19",
         "copyfiles": "2.1.1",
         "enzyme": "3.10.0",
-        "enzyme-adapter-react-16": "1.14.0",
-        "eslint": "6.2.1",
-        "eslint-plugin-react": "7.14.3",
+        "enzyme-adapter-react-16": "1.15.1",
+        "eslint": "6.5.1",
+        "eslint-plugin-react": "7.16.0",
         "jest": "24.9.0",
         "jest-transform-css": "2.0.0",
-        "ts-jest": "24.0.2",
+        "ts-jest": "24.1.0",
         "typedoc": "0.15.0",
-        "typescript": "3.5.3"
+        "typescript": "3.6.4"
     },
     "publishConfig": {
         "access": "public"

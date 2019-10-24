@@ -1,0 +1,25 @@
+import * as React from 'react';
+import { configure, shallow, mount } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+
+import AuthGate from './index'
+
+configure({ adapter: new Adapter() })
+
+it('renders without crashing', () => {
+    shallow(<AuthGate required={true} />);
+});
+
+it('renders children ', () => {
+    const children = (
+        <div>
+            hello
+        </div>
+    )
+    const component = <AuthGate required={true}>
+        {children}
+    </AuthGate>
+    const rendered = mount(component);
+    rendered.unmount();
+
+})

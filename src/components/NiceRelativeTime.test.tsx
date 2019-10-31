@@ -16,12 +16,35 @@ import NiceRelativeTime from './NiceRelativeTime';
 configure({ adapter: new Adapter() });
 
 it('renders without crashing', () => {
-    const channelId = null;
     shallow(<NiceRelativeTime time={new Date(Date.now() + 10000)} />);
 });
 
 it('renders and unmounts correctly', () => {
-    const channelId = null;
     const rendered = mount(<NiceRelativeTime time={new Date(Date.now() + 10000)} />);
+    rendered.unmount();
+});
+
+it('renders and unmounts correctly check data', () => {
+    const rendered = mount(<NiceRelativeTime time={new Date(Date.now() + 10000)} />);
+    expect(rendered.exists('[data-k-b-testhook-element="label"]')).toEqual(true);
+    expect(rendered.find('[data-k-b-testhook-element="label"]').first().text()).toEqual('in 10s');
+    // console.log(label.text);
+    rendered.unmount();
+});
+
+it('renders and unmounts correctly check data', () => {
+    const rendered = mount(<NiceRelativeTime time={new Date(Date.now() - 10000)} />);
+    expect(rendered.exists('[data-k-b-testhook-element="label"]')).toEqual(true);
+    expect(rendered.find('[data-k-b-testhook-element="label"]').first().text()).toEqual('10s ago');
+    // console.log(label.text);
+    rendered.unmount();
+});
+
+
+it('renders and unmounts correctly check data', () => {
+    const rendered = mount(<NiceRelativeTime time={new Date(1569945915443)} />);
+    expect(rendered.exists('[data-k-b-testhook-element="label"]')).toEqual(true);
+    expect(rendered.find('[data-k-b-testhook-element="label"]').first().text()).toEqual('30d ago');
+    // console.log(label.text);
     rendered.unmount();
 });

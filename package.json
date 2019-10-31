@@ -1,6 +1,6 @@
 {
     "name": "@kbase/ui-components",
-    "version": "0.2.1-alpha.1",
+    "version": "0.2.1-alpha.9",
     "description": "A typescript library to provide react components",
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
@@ -35,7 +35,7 @@
     },
     "homepage": "https://github.com/kbaseIncubator/kbase-ui-components#readme",
     "dependencies": {
-        "@kbase/ui-lib": "^0.2.0-alpha.2",
+        "@kbase/ui-lib": "^0.2.1-alpha.2",
         "@types/bluebird": "*",
         "@types/react": "*",
         "@types/react-dom": "*",
@@ -45,7 +45,7 @@
         "axios": "^0.19.0",
         "bluebird": "^3.5.5",
         "es-cookie": "^1.2.0",
-        "react": "^16.11.6",
+        "react": "^16.11.0",
         "react-dom": "^16.8.6",
         "react-redux": "^7.0.3",
         "redux": "^4.0.1",

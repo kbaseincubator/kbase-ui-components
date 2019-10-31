@@ -78,7 +78,9 @@ export default class NiceElapsedTime extends React.Component<NiceElapsedTimeProp
         const { label: tooltipContent, value } = niceElapsed(elapsed, { precision: this.props.precision })
         return (
             <Tooltip placement="bottomRight" title={tooltip}>
-                {tooltipContent}
+                <span data-k-b-testhook-element="label">
+                    {tooltipContent}
+                </span>
             </Tooltip>
         );
     }

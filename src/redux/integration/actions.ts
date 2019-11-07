@@ -171,6 +171,9 @@ export function appStart() {
                                     },
                                     NarrativeJobService: {
                                         url: services.NarrativeJobService.url
+                                    },
+                                    RelationEngine: {
+                                        url: services.RelationEngine.url
                                     }
                                 },
                                 defaultPath: '/'

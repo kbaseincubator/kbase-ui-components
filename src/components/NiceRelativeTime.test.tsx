@@ -42,7 +42,9 @@ it('renders and unmounts correctly check data', () => {
 
 
 it('renders and unmounts correctly check data', () => {
-    const rendered = mount(<NiceRelativeTime time={new Date(1569945915443)} />);
+    const now = new Date().getTime();
+    const thirtyDaysAgo = now - (1000 * 60 * 60 * 24 * 30);
+    const rendered = mount(<NiceRelativeTime time={new Date(thirtyDaysAgo)} />);
     expect(rendered.exists('[data-k-b-testhook-element="label"]')).toEqual(true);
     expect(rendered.find('[data-k-b-testhook-element="label"]').first().text()).toEqual('30d ago');
     // console.log(label.text);

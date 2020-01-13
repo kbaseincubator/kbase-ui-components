@@ -13,6 +13,11 @@ import Adapter from 'enzyme-adapter-react-16';
 // We always need to import the component we are testing
 import NiceRelativeTime from './NiceRelativeTime';
 
+const SECOND_MS = 1000;
+const MINUTE_MS = 60 * SECOND_MS;
+const HOUR_MS = 60 * MINUTE_MS;
+const DAY_MS = 24 * HOUR_MS;
+
 configure({ adapter: new Adapter() });
 
 it('renders without crashing', () => {
@@ -42,8 +47,9 @@ it('renders and unmounts correctly check data', () => {
 
 
 it('renders and unmounts correctly check data', () => {
-    const days = 1000 * 60 * 60 * 24 * 30;
-    const rendered = mount(<NiceRelativeTime time={new Date(Date.now() - days)} absoluteAfter={31} />);
+    const now = new Date().getTime();
+    const thirtyDaysAgo = now - (DAY_MS * 30);
+    const rendered = mount(<NiceRelativeTime time={new Date(thirtyDaysAgo)} />);
     expect(rendered.exists('[data-k-b-testhook-element="label"]')).toEqual(true);
     expect(rendered.find('[data-k-b-testhook-element="label"]').first().text()).toEqual('30d ago');
     // console.log(label.text);

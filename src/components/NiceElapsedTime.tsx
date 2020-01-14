@@ -16,7 +16,7 @@ export interface NiceElapsedTimeProps {
     precision?: number;
     showTooltip?: boolean;
     tooltipPrefix?: string;
-    useClock?: boolean
+    useClock?: boolean;
 }
 
 interface NiceElapsedTimeState {
@@ -31,14 +31,14 @@ export default class NiceElapsedTime extends React.Component<NiceElapsedTimeProp
         this.clockTimer = null;
         this.state = {
             clockTime: Date.now()
-        }
+        };
     }
 
     startClock() {
         this.clockTimer = window.setInterval(() => {
             this.setState({
                 clockTime: Date.now()
-            })
+            });
         }, CLOCK_INTERVAL_SECOND);
     }
 
@@ -59,7 +59,7 @@ export default class NiceElapsedTime extends React.Component<NiceElapsedTimeProp
         } else {
             elapsed = this.state.clockTime - this.props.from;
         }
-        const { label: content } = niceElapsed(elapsed, {})
+        const { label: content } = niceElapsed(elapsed, {});
         if (this.props.showTooltip === false) {
             return <span>{content}</span>;
         }
@@ -75,7 +75,10 @@ export default class NiceElapsedTime extends React.Component<NiceElapsedTimeProp
         } else {
             tooltip = <span>{content}</span>;
         }
-        const { label: tooltipContent, value } = niceElapsed(elapsed, { precision: this.props.precision })
+        const { label: tooltipContent, value } = niceElapsed(elapsed, {
+            precision: this.props.precision,
+
+        });
         return (
             <Tooltip placement="bottomRight" title={tooltip}>
                 <span data-k-b-testhook-element="label">

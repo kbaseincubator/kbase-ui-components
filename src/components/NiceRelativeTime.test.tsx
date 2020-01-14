@@ -45,13 +45,24 @@ it('renders and unmounts correctly check data', () => {
     rendered.unmount();
 });
 
-
-it('renders and unmounts correctly check data', () => {
+it('renders and unmounts correctly 30 days in the future', () => {
     const now = new Date().getTime();
-    const thirtyDaysAgo = now - (DAY_MS * 30);
-    const rendered = mount(<NiceRelativeTime time={new Date(thirtyDaysAgo)} />);
+    const inThirtyDays = now + (DAY_MS * 30);
+    const rendered = mount(<NiceRelativeTime time={new Date(inThirtyDays)} />);
     expect(rendered.exists('[data-k-b-testhook-element="label"]')).toEqual(true);
-    expect(rendered.find('[data-k-b-testhook-element="label"]').first().text()).toEqual('30d ago');
+    expect(rendered.find('[data-k-b-testhook-element="label"]').first().text()).toEqual('in 30d');
     // console.log(label.text);
     rendered.unmount();
 });
+
+
+// it('renders and unmounts correctly, 30 days in the past', () => {
+//     const now = new Date().getTime();
+//     const thirtyDaysAgo = new Date(now - (DAY_MS * 30));
+//     const rendered = mount(<NiceRelativeTime time={new Date(thirtyDaysAgo)} />);
+//     expect(rendered.exists('[data-k-b-testhook-element="label"]')).toEqual(true);
+//     expect(rendered.find('[data-k-b-testhook-element="label"]').first().text()).toEqual('30d ago');
+//     // console.log(label.text);
+//     rendered.unmount();
+// });
+

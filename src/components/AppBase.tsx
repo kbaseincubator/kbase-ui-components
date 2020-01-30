@@ -29,15 +29,13 @@ export default class AppBase extends React.Component<AppProps, AppState> {
     clickMe() {
         this.setState({ clicks: this.state.clicks + 1 });
     }
-    // <KBaseAuthLoader hosted={this.hosted}>
     render() {
         return (
             <Root>
                 <KBaseIntegrationLoader>
-                    <div className="Row Row-fullheight Row-scrollable" data-k-b-testhook-component="AppBase">
-                        <div className="Col scrollable">
-                            {this.props.children}
-                        </div>
+                    <div className="AppBase"
+                        data-k-b-testhook-component="AppBase">
+                        {this.props.children}
                     </div>
                 </KBaseIntegrationLoader>
             </Root>

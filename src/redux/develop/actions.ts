@@ -100,6 +100,9 @@ const devConfig: AppConfig = {
         },
         NarrativeJobService: {
             url: '/services/njs_wrapper'
+        },
+        RelationEngine: {
+            url: '/services/relation_engine_api'
         }
     }
 };

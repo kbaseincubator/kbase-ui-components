@@ -32,13 +32,13 @@ export interface DevelopLoadSuccess extends Action<DevelopActionType.DEVELOP_LOA
 
 export interface DevelopSetView extends Action<DevelopActionType.DEVELOP_SET_VIEW> {
     type: DevelopActionType.DEVELOP_SET_VIEW,
-    view: string
+    view: string;
 }
 
 export interface DevelopSetParams extends Action<DevelopActionType.DEVELOP_SET_PARAMS> {
     type: DevelopActionType.DEVELOP_SET_PARAMS,
     // TODO: can we make params generic?
-    params: Params<string>
+    params: Params<string>;
 }
 
 // Action generators
@@ -61,48 +61,51 @@ export function setView(view: string): DevelopSetView {
     return {
         type: DevelopActionType.DEVELOP_SET_VIEW,
         view
-    }
+    };
 }
 
 export function setParams(params: Params<string>): DevelopSetParams {
     return {
         type: DevelopActionType.DEVELOP_SET_PARAMS,
         params
-    }
+    };
 }
 
 let channel: Channel;
 
+// dev config uses current host
+const devOrigin = document.location.origin;
+
 const devConfig: AppConfig = {
-    baseUrl: '',
+    baseUrl: devOrigin,
     defaultPath: '',
     services: {
         Groups: {
-            url: '/services/groups'
+            url: `${devOrigin}/services/groups`
         },
         UserProfile: {
-            url: '/services/user_profile/rpc'
+            url: `${devOrigin}/services/user_profile/rpc`
         },
         Workspace: {
-            url: '/services/ws'
+            url: `${devOrigin}/services/ws`
         },
         ServiceWizard: {
-            url: '/services/service_wizard'
+            url: `${devOrigin}/services/service_wizard`
         },
         Auth: {
-            url: '/services/auth'
+            url: `${devOrigin}/services/auth`
         },
         NarrativeMethodStore: {
-            url: '/services/narrative_method_store/rpc'
+            url: `${devOrigin}/services/narrative_method_store/rpc`
         },
         Catalog: {
-            url: '/services/catalog/rpc'
+            url: `${devOrigin}/services/catalog/rpc`
         },
         NarrativeJobService: {
-            url: '/services/njs_wrapper'
+            url: `${devOrigin}/services/njs_wrapper`
         },
         RelationEngine: {
-            url: '/services/relation_engine_api'
+            url: `${devOrigin}/services/relation_engine_api`
         }
     }
 };

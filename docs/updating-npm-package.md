@@ -19,11 +19,11 @@
 2. Make sure it is built
 
     ```bash
-    npm build
+    yarn build
     ```
 
 3. publish the package:
 
     ```bash
-    npm publish
+    yarn publish
     ```

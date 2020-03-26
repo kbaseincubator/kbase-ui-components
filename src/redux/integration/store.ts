@@ -41,6 +41,9 @@ export interface AppConfig {
         NarrativeJobService: {
             url: string;
         };
+        RelationEngine: {
+            url: string
+        }
     };
     defaultPath: string;
 }
@@ -91,6 +94,9 @@ export function makeIntegrationStoreInitialState(): AppStoreState {
                         url: ''
                     },
                     NarrativeJobService: {
+                        url: ''
+                    },
+                    RelationEngine: {
                         url: ''
                     }
                 },

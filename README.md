@@ -25,7 +25,7 @@ The library is registered in NPM, so should be installed into kbase-ui and any p
 E.g.
 
 ```bash
-npm install --save @kbase/ui-lib
+npm install --save @kbase/ui-components
 ```
 
 ## Background

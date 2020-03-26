@@ -4,12 +4,21 @@ import './style.css';
 import { Alert } from 'antd';
 import { AuthState } from '../../redux/auth/store';
 
-export interface AuthGateProps {
+export interface AuthGatePropsx {
     required: boolean;
     token: string | null;
     authState: AuthState;
     isAuthorized: boolean;
 }
+
+// HMM: for some reason need to use PropsWithChildren. Otherwise,
+// TS complains about not having the children prop
+export type AuthGateProps = React.PropsWithChildren<{
+    required: boolean;
+    token: string | null;
+    authState: AuthState;
+    isAuthorized: boolean;
+}>;
 
 interface AuthGateState { }
 

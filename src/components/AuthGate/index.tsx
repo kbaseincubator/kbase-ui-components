@@ -1,10 +1,10 @@
 import { Dispatch, Action } from 'redux';
 import { connect } from 'react-redux';
 import { BaseStoreState } from '../../redux/store';
-import Auth from './view';
+import AuthGate from './view';
 import { AuthState } from '../../redux/auth/store';
 
-export interface OwnProps {}
+export interface OwnProps { }
 
 interface StateProps {
     isAuthorized: boolean;
@@ -12,7 +12,7 @@ interface StateProps {
     authState: AuthState;
 }
 
-interface DispatchProps {}
+interface DispatchProps { }
 
 function mapStateToProps(state: BaseStoreState, props: OwnProps): StateProps {
     const {
@@ -57,4 +57,4 @@ function mapDispatchToProps(dispatch: Dispatch<Action>, ownProps: OwnProps): Dis
 export default connect<StateProps, DispatchProps, OwnProps, BaseStoreState>(
     mapStateToProps,
     mapDispatchToProps
-)(Auth);
+)(AuthGate);

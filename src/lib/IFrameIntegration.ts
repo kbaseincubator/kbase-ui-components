@@ -1,11 +1,18 @@
 import { IFrameParams } from './IFrameSupport';
 
 function findHostElement(): Element | null {
-    let node: Element | null;
     if (window.frameElement) {
         return window.frameElement || null;
     } else {
         return window.document.querySelector('[data-plugin-host="true"]');
+    }
+}
+
+export function isDevFrame() {
+    if (window.frameElement) {
+        return false;
+    } else {
+        return true;
     }
 }
 

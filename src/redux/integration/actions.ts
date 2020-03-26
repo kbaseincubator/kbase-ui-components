@@ -4,7 +4,7 @@ import { ThunkDispatch } from 'redux-thunk';
 import { AppConfig, AppRuntime, Navigation } from './store';
 import { AppError, BaseStoreState } from '../store';
 import { Channel } from '@kbase/ui-lib';
-import { getParamsFromDOM } from '../../lib/IFrameIntegration';
+import { getParamsFromDOM, isDevFrame } from '../../lib/IFrameIntegration';
 import { authAuthorized } from '../auth/actions';
 
 // Action types
@@ -50,7 +50,7 @@ export interface AppSetTitle extends Action<ActionType.APP_SET_TITLE> {
 
 export interface AppNavigate extends Action<ActionType.APP_NAVIGATE> {
     type: ActionType.APP_NAVIGATE,
-    navigation: Navigation
+    navigation: Navigation;
 }
 // Action Creators
 
@@ -92,7 +92,7 @@ export function navigate(navigation: Navigation) {
     return {
         type: ActionType.APP_NAVIGATE,
         navigation
-    }
+    };
 }
 
 let channel: Channel;
@@ -122,7 +122,7 @@ export function appStart() {
             to: hostChannelId,
             debug: false
         });
-        const devMode = false;
+        const devMode = isDevFrame();
 
         // } else {
         //     // Create and configure the plugin message bus.
@@ -171,6 +171,9 @@ export function appStart() {
                                     },
                                     NarrativeJobService: {
                                         url: services.NarrativeJobService.url
+                                    },
+                                    RelationEngine: {
+                                        url: services.RelationEngine.url
                                     }
                                 },
                                 defaultPath: '/'
@@ -195,7 +198,7 @@ export function appStart() {
                 } catch (ex) {
                     channel.send('start-error', {
                         message: ex.message
-                    })
+                    });
                 }
 
                 channel.send('started', {});

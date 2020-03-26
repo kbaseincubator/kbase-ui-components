@@ -16,7 +16,7 @@ export interface NiceElapsedTimeProps {
     precision?: number;
     showTooltip?: boolean;
     tooltipPrefix?: string;
-    useClock?: boolean
+    useClock?: boolean;
 }
 
 interface NiceElapsedTimeState {
@@ -31,14 +31,14 @@ export default class NiceElapsedTime extends React.Component<NiceElapsedTimeProp
         this.clockTimer = null;
         this.state = {
             clockTime: Date.now()
-        }
+        };
     }
 
     startClock() {
         this.clockTimer = window.setInterval(() => {
             this.setState({
                 clockTime: Date.now()
-            })
+            });
         }, CLOCK_INTERVAL_SECOND);
     }
 
@@ -59,9 +59,9 @@ export default class NiceElapsedTime extends React.Component<NiceElapsedTimeProp
         } else {
             elapsed = this.state.clockTime - this.props.from;
         }
-        const [tooltipContent,] = niceElapsed(elapsed, {})
+        const { label: content } = niceElapsed(elapsed, {});
         if (this.props.showTooltip === false) {
-            return <span>{tooltipContent}</span>;
+            return <span>{content}</span>;
         }
 
         let tooltip;
@@ -69,16 +69,21 @@ export default class NiceElapsedTime extends React.Component<NiceElapsedTimeProp
             tooltip = (
                 <span>
                     {this.props.tooltipPrefix}
-                    <span>{tooltipContent}</span>
+                    <span>{content}</span>
                 </span>
             );
         } else {
-            tooltip = <span>{tooltipContent}</span>;
+            tooltip = <span>{content}</span>;
         }
-        const [content, time] = niceElapsed(elapsed, { precision: this.props.precision })
+        const { label: tooltipContent, value } = niceElapsed(elapsed, {
+            precision: this.props.precision,
+
+        });
         return (
             <Tooltip placement="bottomRight" title={tooltip}>
-                {content}
+                <span data-k-b-testhook-element="label">
+                    {tooltipContent}
+                </span>
             </Tooltip>
         );
     }

@@ -6,6 +6,7 @@ export interface NiceRelativeTimeProps {
     time: Date;
     showTooltip?: boolean;
     tooltipPrefix?: string;
+    absoluteAfter?: number;
 }
 
 interface NiceRelativeTimeState {
@@ -110,7 +111,9 @@ export default class NiceRelativeTime extends React.Component<NiceRelativeTimePr
         }
         return (
             <Tooltip placement="bottomRight" title={tooltip}>
-                {niceRelativeTime(this.props.time, { absoluteAfter: 30, now: this.state.now })}
+                <span data-k-b-testhook-element="label">
+                    {niceRelativeTime(this.props.time, { absoluteAfter: this.props.absoluteAfter || 30, now: this.state.now })}
+                </span>
             </Tooltip>
         );
     }

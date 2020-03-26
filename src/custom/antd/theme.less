@@ -9,17 +9,26 @@
 @font-size-base-kbase: 16px;
 @font-family-kbase: 'Oxygen';
 
+// Ripped straight from https://github.com/twbs/bootstrap/blob/v3.3.7/less/variables.less
+@bootstrap-primary: darken(#428bca, 6.5%);
+@bootstrap-success: #5cb85c;
+@bootstrap-info: #5bc0de;
+@bootstrap-warning: #f0ad4e;
+// This darkening is not per bootstrap, but antd seems to lighten it
+// up somewhere
+@bootstrap-danger: darken(#d9534f, 10%);
+
 // antd theme customization
-@primary-color: @blue-kbase;
+@primary-color: @bootstrap-primary;
 // @primary-color: @debug-kbase;
 
 
-@info-color: @blue-kbase;
-@success-color: @green-kbase;
-@processing-color: @blue-kbase;
-@error-color: @red-kbase;
-@highlight-color: @red-kbase;
-@warning-color: @gold-kbase;
+@info-color: @bootstrap-primary;
+@success-color: @bootstrap-success;
+@processing-color: @primary-color;
+@error-color: @bootstrap-danger;
+@highlight-color: @bootstrap-danger;
+@warning-color: @bootstrap-warning;
 @normal-color: #d9d9d9;
 
 

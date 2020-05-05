@@ -50,9 +50,7 @@
         "react-redux": "^7.0.3",
         "redux": "^4.0.1",
         "redux-thunk": "^2.3.0",
-        "typeface-oxygen": "^0.0.72",
-        "typeface-roboto": "^0.0.75",
-        "uuid": "^3.3.2"
+        "uuid": "^8.0.0"
     },
     "devDependencies": {
         "@types/enzyme": "*",
@@ -63,10 +61,10 @@
         "enzyme-adapter-react-16": "1.15.2",
         "eslint": "6.8.0",
         "eslint-plugin-react": "7.19.0",
-        "jest": "25.2.2",
+        "jest": "26.0.1",
         "jest-transform-css": "2.0.0",
-        "ts-jest": "25.2.1",
-        "typedoc": "0.17.3",
+        "ts-jest": "25.4.0",
+        "typedoc": "0.17.6",
         "typescript": "3.8.3"
     },
     "publishConfig": {

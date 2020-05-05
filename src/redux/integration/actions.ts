@@ -226,7 +226,7 @@ export function appStart() {
         // message handled above.)
         channel.send('ready', {
             channelId: channel.id,
-            greeting: 'heloooo'
+            greeting: 'hello'
         });
 
         // Here we propagate the click event to the parent window (or at least the host channel).
@@ -235,7 +235,7 @@ export function appStart() {
         };
         window.document.body.addEventListener('click', windowListener);
 
-        ('integration app start action finished');
+        // console.log('integration app start action finished');
 
         // dispatch(appStartSuccess(channelId));
 

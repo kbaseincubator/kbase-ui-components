@@ -110,7 +110,7 @@ const devConfig: AppConfig = {
     },
     dynamicServices: {
         JobBrowserBFF: {
-            version: 'release'
+            version: 'dev'
         }
     }
 };

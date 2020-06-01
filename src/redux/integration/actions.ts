@@ -143,6 +143,7 @@ export function appStart() {
             (params: any) => {
                 try {
                     const services = params.config.services;
+                    const dynamicServices = params.config.dynamicServices;
                     dispatch(
                         loadSuccess(
                             {
@@ -174,6 +175,11 @@ export function appStart() {
                                     },
                                     RelationEngine: {
                                         url: services.RelationEngine.url
+                                    }
+                                },
+                                dynamicServices: {
+                                    JobBrowserBFF: {
+                                        version: dynamicServices.JobBrowserBFF.version
                                     }
                                 },
                                 defaultPath: '/'

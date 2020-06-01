@@ -78,6 +78,11 @@ class IFrameSimulator {
                         NarrativeJobService: {
                             url: '/services/njs_wrapper'
                         }
+                    },
+                    dynamicServices: {
+                        JobBrowserBFF: {
+                            version: 'release'
+                        }
                     }
                 }
             });

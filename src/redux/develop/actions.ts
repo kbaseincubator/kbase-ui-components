@@ -107,6 +107,11 @@ const devConfig: AppConfig = {
         RelationEngine: {
             url: `${devOrigin}/services/relation_engine_api`
         }
+    },
+    dynamicServices: {
+        JobBrowserBFF: {
+            version: 'release'
+        }
     }
 };
 

@@ -11,9 +11,11 @@ export enum AppState {
 export type Params<K extends string> = { [key in K]: string };
 export interface Navigation {
     view: string;
-    params: Params<string>
+    params: Params<string>;
 }
-
+export interface DynamicServiceConfig {
+    version: string;
+}
 export interface AppConfig {
     baseUrl: string;
     services: {
@@ -42,8 +44,11 @@ export interface AppConfig {
             url: string;
         };
         RelationEngine: {
-            url: string
-        }
+            url: string;
+        };
+    };
+    dynamicServices: {
+        JobBrowserBFF: DynamicServiceConfig;
     };
     defaultPath: string;
 }
@@ -53,7 +58,7 @@ export interface AppRuntime {
     hostChannelId: string | null;
     devMode: boolean | null;
     title: string;
-    navigation: Navigation
+    navigation: Navigation;
 }
 
 export interface AppStoreState {
@@ -100,6 +105,11 @@ export function makeIntegrationStoreInitialState(): AppStoreState {
                         url: ''
                     }
                 },
+                dynamicServices: {
+                    JobBrowserBFF: {
+                        version: ''
+                    }
+                },
                 defaultPath: ''
             },
             runtime: {
@@ -112,7 +122,7 @@ export function makeIntegrationStoreInitialState(): AppStoreState {
                     params: {}
                 }
             },
-            
+
         }
     };
 }

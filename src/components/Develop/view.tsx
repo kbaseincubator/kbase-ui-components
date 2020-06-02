@@ -3,6 +3,7 @@ import './style.css';
 import { Button, Alert, Spin, Tag } from 'antd';
 import { Authorization, AuthState } from '../../redux/auth/store';
 import { DevelopStatus } from '../../redux/develop/store';
+import { LoginOutlined, LogoutOutlined } from '@ant-design/icons';
 
 function authStateLabel(status: AuthState) {
     switch (status) {
@@ -31,7 +32,7 @@ export interface DevelopProps {
     start: (window: Window) => void;
 }
 
-interface DevelopComponentState {}
+interface DevelopComponentState { }
 
 export default class Develop extends React.Component<DevelopProps, DevelopComponentState> {
     tokenRef: React.RefObject<HTMLInputElement>;
@@ -73,7 +74,7 @@ export default class Develop extends React.Component<DevelopProps, DevelopCompon
                     <b>Not Authenticated!</b> Enter a Login Token below.
                 </p>
                 Token: <input ref={this.tokenRef} style={{ width: '30em' }} />
-                <Button icon="login" htmlType="submit" onClick={this.onLoginClick.bind(this)}>
+                <Button icon={<LoginOutlined />} htmlType="submit" onClick={this.onLoginClick.bind(this)}>
                     Login
                 </Button>
             </div>
@@ -92,7 +93,7 @@ export default class Develop extends React.Component<DevelopProps, DevelopCompon
                     <span>{this.props.authorization.userAuthorization.username}</span>
                 </b>
                 ){' '}
-                <Button icon="logout" onClick={this.onLogoutClick.bind(this)}>
+                <Button icon={<LogoutOutlined />} onClick={this.onLogoutClick.bind(this)}>
                     Logout
                 </Button>
             </div>

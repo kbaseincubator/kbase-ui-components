@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Button from 'antd/lib/button';
 import { Authorization, AuthState } from '../../redux/auth/store';
+import { SaveOutlined, LogoutOutlined } from '@ant-design/icons';
 import './style.css';
 
 export interface AuthIntegrationProps {
@@ -11,7 +12,7 @@ export interface AuthIntegrationProps {
     onAddAuthorization: (token: string) => void;
 }
 
-export interface AuthIntegrationState {}
+export interface AuthIntegrationState { }
 
 export default class Auth extends React.Component<AuthIntegrationProps, AuthIntegrationState> {
     tokenRef: React.RefObject<HTMLInputElement>;
@@ -44,7 +45,7 @@ export default class Auth extends React.Component<AuthIntegrationProps, AuthInte
         return (
             <div className="Auth-form">
                 Token: <input ref={this.tokenRef} style={{ width: '30em' }} />
-                <Button icon="save" htmlType="submit" onClick={this.onLoginClick.bind(this)}>
+                <Button icon={<SaveOutlined />} htmlType="submit" onClick={this.onLoginClick.bind(this)}>
                     Assign Token
                 </Button>
             </div>
@@ -62,7 +63,7 @@ export default class Auth extends React.Component<AuthIntegrationProps, AuthInte
                     <span>{this.props.authorization.userAuthorization.realname}</span> (
                     <span>{this.props.authorization.userAuthorization.username}</span>
                 </b>
-                ) <Button icon="logout" onClick={this.onLogoutClick.bind(this)} />
+                ) <Button icon={<LogoutOutlined />} onClick={this.onLogoutClick.bind(this)} />
             </div>
         );
     }

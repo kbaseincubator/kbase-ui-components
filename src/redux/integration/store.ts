@@ -49,6 +49,9 @@ export interface AppConfig {
     };
     dynamicServices: {
         JobBrowserBFF: DynamicServiceConfig;
+        SampleService: DynamicServiceConfig;
+        OntologyAPI: DynamicServiceConfig;
+        TaxonomyAPI: DynamicServiceConfig;
     };
     defaultPath: string;
 }
@@ -107,6 +110,15 @@ export function makeIntegrationStoreInitialState(): AppStoreState {
                 },
                 dynamicServices: {
                     JobBrowserBFF: {
+                        version: ''
+                    },
+                    SampleService: {
+                        version: ''
+                    },
+                    OntologyAPI: {
+                        version: ''
+                    },
+                    TaxonomyAPI: {
                         version: ''
                     }
                 },

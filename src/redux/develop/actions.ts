@@ -111,6 +111,15 @@ const devConfig: AppConfig = {
     dynamicServices: {
         JobBrowserBFF: {
             version: 'dev'
+        },
+        SampleService: {
+            version: 'dev'
+        },
+        OntologyAPI: {
+            version: 'dev'
+        },
+        TaxonomyAPI: {
+            version: 'dev'
         }
     }
 };

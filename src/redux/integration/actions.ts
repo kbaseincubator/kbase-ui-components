@@ -180,6 +180,15 @@ export function appStart() {
                                 dynamicServices: {
                                     JobBrowserBFF: {
                                         version: dynamicServices.JobBrowserBFF.version
+                                    },
+                                    SampleService: {
+                                        version: dynamicServices.SampleService.version
+                                    },
+                                    OntologyAPI: {
+                                        version: dynamicServices.OntologyAPI.version
+                                    },
+                                    TaxonomyAPI: {
+                                        version: dynamicServices.TaxonomyAPI.version
                                     }
                                 },
                                 defaultPath: '/'

@@ -63,6 +63,12 @@ class IFrameSimulator {
                         Workspace: {
                             url: '/services/ws'
                         },
+                        SearchAPI2: {
+                            url: `/services/searchapi2/rpc`
+                        },
+                        SearchAPI2Legacy: {
+                            url: `/services/searchapi2/legacy`
+                        },
                         ServiceWizard: {
                             url: '/services/service_wizard'
                         },

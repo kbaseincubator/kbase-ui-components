@@ -158,6 +158,12 @@ export function appStart() {
                                     Workspace: {
                                         url: services.Workspace.url
                                     },
+                                    SearchAPI2: {
+                                        url: services.SearchAPI2.url
+                                    },
+                                    SearchAPI2Legacy: {
+                                        url: services.SearchAPI2Legacy.url
+                                    },
                                     ServiceWizard: {
                                         url: services.ServiceWizard.url
                                     },

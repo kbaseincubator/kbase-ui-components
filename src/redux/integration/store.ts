@@ -28,6 +28,12 @@ export interface AppConfig {
         Workspace: {
             url: string;
         };
+        SearchAPI2: {
+            url: string;
+        };
+        SearchAPI2Legacy: {
+            url: string;
+        };
         ServiceWizard: {
             url: string;
         };
@@ -87,6 +93,12 @@ export function makeIntegrationStoreInitialState(): AppStoreState {
                         url: ''
                     },
                     Workspace: {
+                        url: ''
+                    },
+                    SearchAPI2: {
+                        url: ''
+                    },
+                    SearchAPI2Legacy: {
                         url: ''
                     },
                     ServiceWizard: {

@@ -4,6 +4,7 @@ import { AppError } from '../redux/store';
 
 export interface LoaderProps {
     status: AppState;
+    message?: string;
     error?: AppError;
     onLoad: () => void;
 }
@@ -23,6 +24,9 @@ export default class Loader extends React.Component<LoaderProps, LoaderState> {
             );
         }
         return (
+            // TODO: need to rethink how the integration loading state (where this is used ... sort that out too!)
+            //       is shown. E.g. the plugin using integration will have it's own loading display, so
+            //       perhaps that can be passed in to the integration component.
             <div data-k-b-testhook-component="Loader" data-k-b-testhook-element="error">
                 {this.props.error.message}
             </div>
@@ -31,7 +35,7 @@ export default class Loader extends React.Component<LoaderProps, LoaderState> {
     renderLoading() {
         return (
             <div data-k-b-testhook-component="Loader" data-k-b-testhook-element="loading">
-                Loading...
+                {this.props.message}
             </div>
         );
     }

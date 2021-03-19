@@ -1,10 +1,7 @@
 import * as React from 'react';
 import AuthComponent from './view';
 import { Authorization, AuthState } from '../../redux/auth/store';
-import { configure, shallow } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
-
-configure({ adapter: new Adapter() });
+import {render} from '@testing-library/react'
 
 it('renders without crashing', () => {
     const authorization: Authorization = {
@@ -21,7 +18,7 @@ it('renders without crashing', () => {
     const onRemoveAuthorization = () => {};
     const onAddAuthorization = (token: string) => {};
     const hosted = false;
-    const wrapper = shallow(
+    render(
         <AuthComponent
             authorization={authorization}
             hosted={hosted}

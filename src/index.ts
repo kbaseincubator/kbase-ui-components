@@ -12,3 +12,4 @@ export { AppConfig } from './redux/integration/store';
 export { RootState } from './redux/root/store';
 export { default as FlexTabs } from './components/FlexTabs';
 export { default as Loading } from './components/Loading/Loading';
+export { default as NoData } from './components/NoData';

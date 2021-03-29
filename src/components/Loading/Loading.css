@@ -3,10 +3,10 @@
   display: flex;
   flex-direction: row;
 }
-.Loading.-side {
+.Loading>.-side {
   flex: 1 1 0xp;
 }
-.Loading.-container {
+.Loading>.-container {
   flex: auto;
   padding: 20px;
   margin: 10px;

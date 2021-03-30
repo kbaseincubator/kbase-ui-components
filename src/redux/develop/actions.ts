@@ -1,9 +1,11 @@
 import { Action } from 'redux';
-import { Channel } from '@kbase/ui-lib';
+import { WindowChannel } from '@kbase/ui-lib';
 import { BaseStoreState } from '../store';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppConfig, Params } from '../integration/store';
 import { Auth, AuthState } from '@kbase/ui-lib';
+import {WindowChannelInit} from "@kbase/ui-lib/lib/lib/windowChannel";
+import { v4 as uuidv4 } from 'uuid';
 
 export enum DevelopActionType {
     DEVELOP_SET_TITLE = 'develop/set/title',
@@ -28,6 +30,7 @@ export interface DevelopStart extends Action<DevelopActionType.DEVELOP_START> {
 export interface DevelopLoadSuccess extends Action<DevelopActionType.DEVELOP_LOAD_SUCCESS> {
     type: DevelopActionType.DEVELOP_LOAD_SUCCESS;
     hostChannelId: string;
+    channelId: string;
 }
 
 export interface DevelopSetView extends Action<DevelopActionType.DEVELOP_SET_VIEW> {
@@ -50,10 +53,11 @@ export function setTitle(title: string): DevelopSetTitle {
     };
 }
 
-export function loadSuccess(hostChannelId: string): DevelopLoadSuccess {
+export function loadSuccess(hostChannelId: string, channelId: string): DevelopLoadSuccess {
     return {
         type: DevelopActionType.DEVELOP_LOAD_SUCCESS,
-        hostChannelId
+        hostChannelId,
+        channelId
     };
 }
 
@@ -71,7 +75,7 @@ export function setParams(params: Params<string>): DevelopSetParams {
     };
 }
 
-let channel: Channel;
+let channel: WindowChannel;
 
 // dev config uses current host
 const devOrigin = document.location.origin;
@@ -130,7 +134,10 @@ const devConfig: AppConfig = {
     }
 };
 
-function setupAndStartChannel(channel: Channel, dispatch: ThunkDispatch<BaseStoreState, void, Action>) {
+function setupAndStartChannel(dispatch: ThunkDispatch<BaseStoreState, void, Action>): WindowChannel {
+    const chan = new WindowChannelInit()
+    channel = chan.makeChannel(uuidv4())
+
     channel.on('ready', async (params) => {
         channel.setPartner(params.channelId);
 
@@ -240,6 +247,8 @@ function setupAndStartChannel(channel: Channel, dispatch: ThunkDispatch<BaseStor
     });
 
     channel.start();
+
+    return channel;
 }
 
 // export function start(channelId: string): DevelopStart {
@@ -252,12 +261,11 @@ function setupAndStartChannel(channel: Channel, dispatch: ThunkDispatch<BaseStor
 export function start(window: Window) {
     return async (dispatch: ThunkDispatch<BaseStoreState, void, Action>, getState: () => BaseStoreState) => {
         // create channel
-        channel = new Channel({ debug: false });
 
-        setupAndStartChannel(channel, dispatch);
+        const channel = setupAndStartChannel(dispatch);
 
         // set channel id via action
-        dispatch(loadSuccess(channel.id));
+        dispatch(loadSuccess(channel.getId(), channel.getPartnerId()));
 
         // set up channel handlers, etc.
     };

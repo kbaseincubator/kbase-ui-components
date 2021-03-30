@@ -19,6 +19,7 @@ export interface OwnProps {}
 interface StateProps {
     defaultPath: string;
     hostChannelId: string | null;
+    channelId: string | null;
     title: string;
 }
 
@@ -33,11 +34,12 @@ export function mapStateToProps(state: BaseStoreState, props: OwnProps): StatePr
             config: { defaultPath },
             runtime: { title }
         },
-        root: { hostChannelId }
+        root: { hostChannelId, channelId }
     } = state;
     return {
         defaultPath,
         hostChannelId,
+        channelId,
         title
     };
 }

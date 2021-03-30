@@ -1,9 +1,10 @@
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
+import { WindowChannelInit } from "@kbase/ui-lib/lib/lib/windowChannel";
+import { WindowChannel } from '@kbase/ui-lib';
 
 import { AppConfig, AppRuntime, Navigation } from './store';
 import { AppError, BaseStoreState } from '../store';
-import { Channel } from '@kbase/ui-lib';
 import { getParamsFromDOM, isDevFrame } from '../../lib/IFrameIntegration';
 import { authAuthorized } from '../auth/actions';
 
@@ -95,7 +96,7 @@ export function navigate(navigation: Navigation) {
     };
 }
 
-let channel: Channel;
+let channel: WindowChannel;
 let windowListener: any;
 
 export function appStart() {
@@ -118,10 +119,13 @@ export function appStart() {
         // set up the plugin message bus.
 
         const hostChannelId = iframeParams.channelId;
-        channel = new Channel({
-            to: hostChannelId,
-            debug: false
-        });
+        const channelId = iframeParams.pluginChannelId;
+        const chan = new WindowChannelInit({id: channelId});
+        channel = chan.makeChannel(hostChannelId);
+        // channel = new Channel({
+        //     to: hostChannelId,
+        //     debug: false
+        // });
         const devMode = isDevFrame();
 
         // } else {
@@ -200,7 +204,7 @@ export function appStart() {
                                 defaultPath: '/'
                             },
                             {
-                                channelId: channel.id,
+                                channelId: channel.getId(),
                                 hostChannelId,
                                 devMode,
                                 title: '',
@@ -246,7 +250,7 @@ export function appStart() {
         // and it is ready for further instructions (which in all likelihood is the 'start'
         // message handled above.)
         channel.send('ready', {
-            channelId: channel.id,
+            channelId: channel.getId(),
             greeting: 'hello'
         });
 

@@ -1,5 +1,6 @@
 export interface IFrameParams {
     channelId: string;
+    pluginChannelId: string;
     frameId: string;
     params: {
         // groupsServiceURL: string;

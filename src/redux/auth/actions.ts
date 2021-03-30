@@ -2,7 +2,7 @@ import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import * as Cookies from 'es-cookie';
 import { AppError, BaseStoreState } from '../store';
-import { AuthClient } from '@kbase/ui-lib';
+import AuthClient from '@kbase/ui-lib/lib/coreServices/auth';
 
 export enum AuthActionType {
     AUTH_CHECK = 'auth check',

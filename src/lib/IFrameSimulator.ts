@@ -1,6 +1,7 @@
 import uuid from 'uuid';
-import { Channel } from '@kbase/ui-lib';
+import { WindowChannel } from '@kbase/ui-lib';
 import { IFrameParams } from './IFrameSupport';
+import {WindowChannelInit} from "@kbase/ui-lib/lib/lib/windowChannel";
 
 // export interface IFrameParams {
 //     channelId: string
@@ -29,22 +30,28 @@ parentHost: "https://ci.kbase.us"
 /*
 IFrameSimulator
 This little doozey allows us to create a simulated iframe. We can query it for
- the params placed on the iframe, and talk to it via the window channel -- it has 
+ the params placed on the iframe, and talk to it via the window channel -- it has
  its own window channel.
  Good thing we designed the channel for multiple channels per window.
 */
 class IFrameSimulator {
     params: IFrameParams | null;
-    channel: Channel;
+    channel: WindowChannel;
 
     constructor(toChannelId: string) {
         this.params = null;
 
         // create a window channel.
 
-        this.channel = new Channel({
-            to: toChannelId
-        });
+        const chan = new WindowChannelInit();
+
+        this.channel = chan.makeChannel(toChannelId)
+
+        // this.channel = new WindowChannel({
+        //     window,
+        //     host: window.location.origin,
+        //     to: toChannelId
+        // });
 
         this.channel.on('ready', (msg) => {
             this.channel.send('start', {
@@ -109,7 +116,8 @@ class IFrameSimulator {
 
     getParamsFromIFrame(): IFrameParams {
         return {
-            channelId: this.channel.id,
+            channelId: this.channel.getId(),
+            pluginChannelId: this.channel.getPartnerId(),
             frameId: uuid.v4(),
             params: {
                 originalPath: '',

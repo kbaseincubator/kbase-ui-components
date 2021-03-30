@@ -14,6 +14,7 @@ export interface OwnProps {}
 interface StateProps {
     title: string;
     hostChannelId: string | null;
+    channelId: string | null;
     // rootState: RootState;
     authorization: Authorization;
     developStatus: DevelopStatus;
@@ -27,7 +28,7 @@ interface DispatchProps {
 
 export function mapStateToProps(state: BaseStoreState, props: OwnProps): StateProps {
     const {
-        root: { hostChannelId },
+        root: { hostChannelId, channelId },
         develop: { title, status: developStatus },
         auth
     } = state;
@@ -35,6 +36,7 @@ export function mapStateToProps(state: BaseStoreState, props: OwnProps): StatePr
     return {
         title,
         hostChannelId,
+        channelId,
         authorization: auth,
         developStatus
     };

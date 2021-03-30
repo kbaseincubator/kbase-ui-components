@@ -1,6 +1,6 @@
 {
     "name": "@kbase/ui-components",
-    "version": "0.4.11",
+    "version": "0.4.12",
     "description": "A typescript library to provide react components for integration into kbase-ui and friends",
     "main": "lib/index.js",
     "types": "lib/index.d.ts",
@@ -36,10 +36,10 @@
     "homepage": "https://github.com/kbaseIncubator/kbase-ui-components#readme",
     "dependencies": {
         "@ant-design/icons": "^4.5.0",
-        "@kbase/ui-lib": "^0.2.1-alpha.3",
+        "@kbase/ui-lib": "^0.3.0",
         "@types/bluebird": "*",
-        "@types/react": "17",
-        "@types/react-dom": "17",
+        "@types/react": "16",
+        "@types/react-dom": "16",
         "@types/react-redux": "*",
         "@types/uuid": "*",
         "antd": "^4.3.0",

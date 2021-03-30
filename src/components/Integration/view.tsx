@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Channel } from '@kbase/ui-lib';
+import { WindowChannel } from '@kbase/ui-lib';
 import './style.css';
 
 // This is the "loader" component, which really just waits until the app is ready
@@ -19,7 +19,7 @@ interface KBaseIntegrationState {
 }
 
 export default class KBaseIntegration extends React.Component<KBaseIntegrationProps, KBaseIntegrationState> {
-    channel: Channel | null;
+    channel: WindowChannel | null;
     hosted: boolean;
 
     constructor(props: KBaseIntegrationProps) {

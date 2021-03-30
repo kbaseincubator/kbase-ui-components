@@ -20,12 +20,10 @@ export default class Loading extends React.Component<Props, State> {
     render() {
         return (
             <div className="Loading">
-                <div className="-side"></div>
                 <div className="-container">
                     <Spin size="large" />
                     {this.renderMessage()}
                 </div>
-                <div className="-side"></div>
             </div>
         );
     }

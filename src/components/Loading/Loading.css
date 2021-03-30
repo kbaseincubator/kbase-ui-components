@@ -2,9 +2,8 @@
   flex: 1 1 0px;
   display: flex;
   flex-direction: row;
-}
-.Loading>.-side {
-  flex: 1 1 0xp;
+  align-items: center;
+  justify-content: center;
 }
 .Loading>.-container {
   flex: auto;

@@ -4,15 +4,16 @@ import { BaseStoreState } from '../store';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppConfig, Params } from '../integration/store';
 import { Auth, AuthState } from '@kbase/ui-lib';
-import {WindowChannelInit} from "@kbase/ui-lib/lib/lib/windowChannel";
+import { WindowChannelInit } from "@kbase/ui-lib/lib/lib/windowChannel";
 import { v4 as uuidv4 } from 'uuid';
+import RequestFetcher from './Request';
 
 export enum DevelopActionType {
-    DEVELOP_SET_TITLE = 'develop/set/title',
-    DEVELOP_START = 'develop/start',
-    DEVELOP_LOAD_SUCCESS = 'develop/load/success',
-    DEVELOP_SET_VIEW = 'develop/set/view',
-    DEVELOP_SET_PARAMS = 'develop/set/params'
+    DEVELOP_SET_TITLE = '@kbase-ui-components:develop_set_title',
+    DEVELOP_START = '@kbase-ui-components:develop_start',
+    DEVELOP_LOAD_SUCCESS = '@kbase-ui-components:develop_load_success',
+    DEVELOP_SET_VIEW = '@kbase-ui-components:develop_set_view',
+    DEVELOP_SET_PARAMS = '@kbase-ui-components:develop_set_params'
 }
 
 // Action Types
@@ -133,6 +134,41 @@ const devConfig: AppConfig = {
         }
     }
 };
+
+function navigateWithHash() {
+    const request = new RequestFetcher().getHashRequest();
+    const { route, params } = this.router.findRoute(request);
+    this.props.navigate({
+        view: route.view,
+        params
+    });
+}
+
+function setupHashListener() {
+    // Navigate on change of the hash
+    window.addEventListener('hashchange', (ev: HashChangeEvent) => {
+        const url = new URL(ev.newURL);
+        const hash = url.hash;
+        if (!hash) {
+            throw new Error('no hash!');
+        }
+        this.navigateWithHash();
+    });
+
+    // First time here, we also want to navigate based on the
+    // hash, or if empty (the default when a dev session starts)
+    // use some default interesting taxon id.
+
+    // don't do initial nav for now
+    // return;
+    const hash = window.location.hash;
+    if (!hash) {
+        throw new Error('no hash!');
+    }
+
+    this.navigateWithHash();
+
+}
 
 function setupAndStartChannel(dispatch: ThunkDispatch<BaseStoreState, void, Action>): WindowChannel {
     const chan = new WindowChannelInit()

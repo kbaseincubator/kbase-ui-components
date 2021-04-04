@@ -155,7 +155,7 @@ export function removeAuthorization() {
 }
 
 export function addAuthorization(token: string) {
-    return (dispatch: ThunkDispatch<BaseStoreState, void, Action>, getState: () => BaseStoreState) => {
+    return async (dispatch: ThunkDispatch<BaseStoreState, void, Action>, getState: () => BaseStoreState) => {
         const {
             app: {
                 config: {
@@ -166,24 +166,23 @@ export function addAuthorization(token: string) {
             }
         } = getState();
 
-        // add cookie
-        Cookies.set('kbase_session', token);
-
         // TODO: get auth info
         const auth = new AuthClient({ url: url });
-        Promise.all([auth.getTokenInfo(token), auth.getMe(token)])
-            .then(([tokenInfo, account]) => {
-                const roles = account.roles.map(({ id, desc }) => id);
-                dispatch(authAuthorized(token, account.user, account.display, roles));
-            })
-            .catch((err) => {
-                console.error('auth check error', err);
-                dispatch(
-                    authCheckError({
-                        code: 'error',
-                        message: err.message
-                    })
-                );
-            });
+
+        try {
+            const account = await auth.getMe(token);
+            const roles = account.roles.map(({ id }) => id);
+            // add cookie
+            Cookies.set('kbase_session', token);
+            dispatch(authAuthorized(token, account.user, account.display, roles));
+        } catch (err) {
+            console.error('auth check error', err);
+            dispatch(
+                authCheckError({
+                    code: 'error',
+                    message: err.message
+                })
+            );
+        }
     };
 }

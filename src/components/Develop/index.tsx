@@ -5,11 +5,11 @@ import { BaseStoreState } from '../../redux/store';
 import Develop from './view';
 import { Authorization } from '../../redux/auth/store';
 // import { RootState } from '../../redux/root/store';
-import { start } from '../../redux/develop/actions';
+import { DevelopActionType, DevelopStart, start } from '../../redux/develop/actions';
 import { DevelopStatus } from '../../redux/develop/store';
 import { addAuthorization, removeAuthorization } from '../../redux/auth/actions';
 
-export interface OwnProps {}
+export interface OwnProps { }
 
 interface StateProps {
     title: string;
@@ -45,6 +45,9 @@ export function mapStateToProps(state: BaseStoreState, props: OwnProps): StatePr
 export function mapDispatchToProps(dispatch: Dispatch<Action>): DispatchProps {
     return {
         start: (window: Window) => {
+            dispatch({
+                type: DevelopActionType.DEVELOP_START
+            } as DevelopStart);
             dispatch(start(window) as any);
         },
         addAuthorization: (token: string) => {

@@ -25,7 +25,6 @@ export interface DevelopSetTitle extends Action<DevelopActionType.DEVELOP_SET_TI
 
 export interface DevelopStart extends Action<DevelopActionType.DEVELOP_START> {
     type: DevelopActionType.DEVELOP_START;
-    window: Window;
 }
 
 export interface DevelopLoadSuccess extends Action<DevelopActionType.DEVELOP_LOAD_SUCCESS> {

@@ -11,14 +11,14 @@ import { authAuthorized } from '../auth/actions';
 // Action types
 
 export enum ActionType {
-    APP_LOAD = '@kbase-ui-lib/app/load',
-    APP_LOAD_START = '@kbase-ui-lib/app/load/start',
-    APP_LOAD_SUCCESS = '@kbase-ui-lib/app/load/success',
-    APP_LOAD_ERROR = '@kbase-ui-lib/app/load/error',
-    APP_SEND_MESSAGE = '@kbase-ui-lib/app/send/message',
-    APP_SEND_TITLE = '@kbase-ui-lib/app/send/title',
-    APP_SET_TITLE = '@kbase-ui-lib/app/set/title',
-    APP_NAVIGATE = '@kbase-ui-lib/app/navigate'
+    APP_LOAD = '@kbase-ui-components/app/load',
+    APP_LOAD_START = '@kbase-ui-components/app/load/start',
+    APP_LOAD_SUCCESS = '@kbase-ui-components/app/load/success',
+    APP_LOAD_ERROR = '@kbase-ui-components/app/load/error',
+    APP_SEND_MESSAGE = '@kbase-ui-components/app/send/message',
+    APP_SEND_TITLE = '@kbase-ui-components/app/send/title',
+    APP_SET_TITLE = '@kbase-ui-components/app/set/title',
+    APP_NAVIGATE = '@kbase-ui-components/app/navigate'
 }
 
 // Action Definitions
@@ -120,7 +120,7 @@ export function appStart() {
 
         const hostChannelId = iframeParams.channelId;
         const channelId = iframeParams.pluginChannelId;
-        const chan = new WindowChannelInit({id: channelId});
+        const chan = new WindowChannelInit({ id: channelId });
         channel = chan.makeChannel(hostChannelId);
         // channel = new Channel({
         //     to: hostChannelId,

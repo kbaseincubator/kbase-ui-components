@@ -9,7 +9,6 @@ import Container from './container';
 
 class Wrapped extends React.Component<LoaderProps, object> {
     render() {
-        // Ahem, this is where the integration is started up.
         return (
             <Loader status={this.props.status} error={this.props.error} onLoad={this.props.onLoad}>
                 <Container>{this.props.children}</Container>
@@ -26,7 +25,7 @@ class Wrapped extends React.Component<LoaderProps, object> {
 
 // Connect to the Redux Store
 
-export interface OwnProps {}
+export interface OwnProps { }
 
 interface StateProps {
     status: AppState;

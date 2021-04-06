@@ -5,14 +5,14 @@ import { AppError, BaseStoreState } from '../store';
 import AuthClient from '@kbase/ui-lib/lib/lib/comm/coreServices/Auth';
 
 export enum AuthActionType {
-    AUTH_CHECK = 'auth check',
-    AUTH_CHECK_START = 'auth check start',
-    AUTH_CHECK_ERROR = 'auth check error',
-    AUTH_AUTHORIZED = 'auth authorized',
-    AUTH_UNAUTHORIZED = 'auth unauthorized',
-    AUTH_REMOVE_AUTHORIZATION = 'auth remove authorization',
-    AUTH_ADD_AUTHORIZATION = 'auth add authorization',
-    AUTH_ADD_AUTHORIZATION_ERROR = 'auth add authorization error'
+    AUTH_CHECK = '@kbase-ui-components:auth check',
+    AUTH_CHECK_START = '@kbase-ui-components:auth check start',
+    AUTH_CHECK_ERROR = '@kbase-ui-components:auth check error',
+    AUTH_AUTHORIZED = '@kbase-ui-components:auth authorized',
+    AUTH_UNAUTHORIZED = '@kbase-ui-components:auth unauthorized',
+    AUTH_REMOVE_AUTHORIZATION = '@kbase-ui-components:auth remove authorization',
+    AUTH_ADD_AUTHORIZATION = '@kbase-ui-components:auth add authorization',
+    AUTH_ADD_AUTHORIZATION_ERROR = '@kbase-ui-components:auth add authorization error'
 }
 
 // Action Definitions

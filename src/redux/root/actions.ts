@@ -2,8 +2,8 @@ import { Action } from 'redux';
 import { IFrameParams } from '../../lib/IFrameSupport';
 
 export enum RootActionType {
-    ROOT_START_HOSTED_ENVIRONMENT = 0,
-    ROOT_START_DEVELOPMENT_ENVIRONMENT
+    ROOT_START_HOSTED_ENVIRONMENT = '@kbase-ui-components:root-start-hosted-environment',
+    ROOT_START_DEVELOPMENT_ENVIRONMENT = '@kbase-ui-components:root-start-development-environment'
 }
 
 export interface StartHostedEnvironment extends Action {

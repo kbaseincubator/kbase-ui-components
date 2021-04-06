@@ -4,13 +4,18 @@
 import * as React from 'react';
 import './AppBase.css';
 import '../style/common.css';
-import KBaseIntegrationLoader from './Integration';
+import Integration from './Integration';
 import Root from './Root';
 
 export interface AppProps { }
 
 interface AppState {
     clicks: number;
+}
+
+function There() {
+    console.log('THERE!');
+    return <div>there</div>;
 }
 
 export default class AppBase extends React.Component<AppProps, AppState> {
@@ -29,12 +34,14 @@ export default class AppBase extends React.Component<AppProps, AppState> {
     render() {
         return (
             <Root>
-                <KBaseIntegrationLoader>
+                <There />
+                <Integration>
+                    <There />
                     <div className="AppBase"
                         data-k-b-testhook-component="AppBase">
                         {this.props.children}
                     </div>
-                </KBaseIntegrationLoader>
+                </Integration>
             </Root>
         );
     }

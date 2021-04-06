@@ -104,6 +104,7 @@ export function appStart() {
         // check and see if we are in an iframe
         let iframeParams = getParamsFromDOM();
         if (!iframeParams) {
+            console.warn('No iframe params');
             return;
         }
 
@@ -115,28 +116,12 @@ export function appStart() {
         // Without the ui, most commonly in develop mode but also testing,
         // the host channel is set up by a "fake iframe" object, which simulates
         // the host environment.
-        // if (iframeParams) {
-        // set up the plugin message bus.
 
-        const hostChannelId = iframeParams.channelId;
+        const hostChannelId = iframeParams.hostChannelId;
         const channelId = iframeParams.pluginChannelId;
         const chan = new WindowChannelInit({ id: channelId });
         channel = chan.makeChannel(hostChannelId);
-        // channel = new Channel({
-        //     to: hostChannelId,
-        //     debug: false
-        // });
         const devMode = isDevFrame();
-
-        // } else {
-        //     // Create and configure the plugin message bus.
-        //     channel = new Channel({});
-        //     const fakeIframe = new IFrameSimulator(channel.id);
-        //     hostChannelId = fakeIframe.channel.id;
-        //     channel.setPartner(hostChannelId);
-        //     iframeParams = fakeIframe.getParamsFromIFrame();
-        //     devMode = true;
-        // }
 
         // A plugin will wait until receiving a 'start' message. The
         // start message contains enough data for most apps to start
@@ -259,8 +244,6 @@ export function appStart() {
             channel.send('clicked', {});
         };
         window.document.body.addEventListener('click', windowListener);
-
-        // console.log('integration app start action finished');
 
         // dispatch(appStartSuccess(channelId));
 

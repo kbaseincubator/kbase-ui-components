@@ -13,11 +13,6 @@ interface AppState {
     clicks: number;
 }
 
-function There() {
-    console.log('THERE!');
-    return <div>there</div>;
-}
-
 export default class AppBase extends React.Component<AppProps, AppState> {
     hosted: boolean;
     constructor(props: AppProps) {
@@ -34,9 +29,7 @@ export default class AppBase extends React.Component<AppProps, AppState> {
     render() {
         return (
             <Root>
-                <There />
                 <Integration>
-                    <There />
                     <div className="AppBase"
                         data-k-b-testhook-component="AppBase">
                         {this.props.children}

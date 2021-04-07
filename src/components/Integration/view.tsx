@@ -10,7 +10,6 @@ import './style.css';
 
 
 export interface KBaseIntegrationProps {
-    hostChannelId: string | null;
     title: string;
 }
 
@@ -19,31 +18,18 @@ interface KBaseIntegrationState {
 }
 
 export default class KBaseIntegration extends React.Component<KBaseIntegrationProps, KBaseIntegrationState> {
-    channel: WindowChannel | null;
-    hosted: boolean;
-
     constructor(props: KBaseIntegrationProps) {
         super(props);
 
         this.state = {
             ready: false
         };
-
-        this.hosted = !!window.frameElement;
-
-        this.channel = null;
     }
-
-    teardownChannel() { }
 
     componentDidMount() {
         this.setState({
             ready: true
         });
-    }
-
-    componentWillUnmount() {
-        this.teardownChannel();
     }
 
     renderReady() {

@@ -1,30 +1,23 @@
 import * as React from 'react';
 import AuthComponent from './view';
-import { Authorization, AuthState } from '../../redux/auth/store';
-import {render} from '@testing-library/react'
+import { Authentication, AuthenticationStatus } from '../../redux/auth/store';
+import { render } from '@testing-library/react'
 
 it('renders without crashing', () => {
-    const authorization: Authorization = {
-        status: AuthState.NONE,
-        message: '',
-        userAuthorization: {
-            token: '',
-            username: '',
-            realname: '',
-            roles: []
-        }
+    const authentication: Authentication = {
+        status: AuthenticationStatus.NONE,
     };
-    const checkAuth = () => {};
-    const onRemoveAuthorization = () => {};
-    const onAddAuthorization = (token: string) => {};
+    const checkAuth = () => { };
+    const onRemoveAuthentication = () => { };
+    const onAddAuthentication = (token: string) => { };
     const hosted = false;
     render(
         <AuthComponent
-            authorization={authorization}
+            authentication={authentication}
             hosted={hosted}
             checkAuth={checkAuth}
-            onRemoveAuthorization={onRemoveAuthorization}
-            onAddAuthorization={onAddAuthorization}
+            onRemoveAuthentication={onRemoveAuthentication}
+            onAddAuthentication={onAddAuthentication}
         />
     );
 });

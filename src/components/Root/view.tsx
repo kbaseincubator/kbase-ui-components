@@ -1,8 +1,10 @@
-import React, { Props } from 'react';
+import Alert from 'antd/lib/alert';
+import React from 'react';
 import { getParamsFromIFrame } from '../../lib/IFrameIntegration';
 import { IFrameParams } from '../../lib/IFrameSupport';
 import { RootState } from '../../redux/root/store';
 import Develop from '../Develop';
+import Loading from '../Loading/Loading';
 
 export interface RootProps {
     rootState: RootState;
@@ -23,7 +25,7 @@ function rootStateToLabel(state: RootState) {
     }
 }
 
-interface RootComponentState {}
+interface RootComponentState { }
 
 export default class Root extends React.Component<RootProps, RootComponentState> {
     iframeParams: IFrameParams | null;
@@ -45,24 +47,13 @@ export default class Root extends React.Component<RootProps, RootComponentState>
     render() {
         switch (this.props.rootState) {
             case RootState.NONE:
-                return <div>Loading...</div>;
+                return <Loading />;
             case RootState.HOSTED:
                 return <React.Fragment>{this.props.children}</React.Fragment>;
             case RootState.DEVELOP:
                 return <Develop>{this.props.children}</Develop>;
             case RootState.ERROR:
-                return <div>Error!</div>;
+                return <Alert type="error" message='Error!' />;
         }
-        // if (this.props.rootState !== RootState.DEVELOP) {
-        //     return (
-        //         <React.Fragment>{this.props.children}</React.Fragment>
-        //     );
-        // }
-        // return (
-        //     <React.Fragment>
-        //         {this.renderDebug()}
-        //         {this.props.children}
-        //     </React.Fragment>
-        // );
     }
 }

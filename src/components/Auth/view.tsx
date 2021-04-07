@@ -1,15 +1,15 @@
 import * as React from 'react';
 import Button from 'antd/lib/button';
-import { Authorization, AuthState } from '../../redux/auth/store';
+import { Authentication, AuthenticationStatus } from '../../redux/auth/store';
 import { SaveOutlined, LogoutOutlined } from '@ant-design/icons';
 import './style.css';
 
 export interface AuthIntegrationProps {
-    authorization: Authorization;
+    authentication: Authentication;
     hosted: boolean;
     checkAuth: () => void;
-    onRemoveAuthorization: () => void;
-    onAddAuthorization: (token: string) => void;
+    onRemoveAuthentication: () => void;
+    onAddAuthentication: (token: string) => void;
 }
 
 export interface AuthIntegrationState { }
@@ -27,7 +27,7 @@ export default class Auth extends React.Component<AuthIntegrationProps, AuthInte
     }
 
     onLogoutClick() {
-        this.props.onRemoveAuthorization();
+        this.props.onRemoveAuthentication();
     }
 
     onLoginClick() {
@@ -38,7 +38,7 @@ export default class Auth extends React.Component<AuthIntegrationProps, AuthInte
         if (token.length === 0) {
             return;
         }
-        this.props.onAddAuthorization(token);
+        this.props.onAddAuthentication(token);
     }
 
     buildAuthForm() {
@@ -53,15 +53,15 @@ export default class Auth extends React.Component<AuthIntegrationProps, AuthInte
     }
 
     buildAuthToolbar() {
-        if (!this.props.authorization.userAuthorization) {
+        if (this.props.authentication.status !== AuthenticationStatus.AUTHENTICATED) {
             return;
         }
         return (
             <div className="Auth-toolbar">
                 Logged in as{' '}
                 <b>
-                    <span>{this.props.authorization.userAuthorization.realname}</span> (
-                    <span>{this.props.authorization.userAuthorization.username}</span>
+                    <span>{this.props.authentication.userAuthentication.realname}</span> (
+                    <span>{this.props.authentication.userAuthentication.username}</span>
                 </b>
                 ) <Button icon={<LogoutOutlined />} onClick={this.onLogoutClick.bind(this)} />
             </div>
@@ -69,29 +69,29 @@ export default class Auth extends React.Component<AuthIntegrationProps, AuthInte
     }
 
     buildAuthDev() {
-        switch (this.props.authorization.status) {
-            case AuthState.NONE:
-            case AuthState.CHECKING:
+        switch (this.props.authentication.status) {
+            case AuthenticationStatus.NONE:
+            case AuthenticationStatus.CHECKING:
                 return <div />;
-            case AuthState.AUTHORIZED:
+            case AuthenticationStatus.AUTHENTICATED:
                 return (
-                    <div className="Auth Auth-authorized scrollable-flex-column">
+                    <div className="Auth Auth-authenticated scrollable-flex-column">
                         {this.buildAuthToolbar()}
                         {this.props.children}
                     </div>
                 );
-            case AuthState.UNAUTHORIZED:
+            case AuthenticationStatus.UNAUTHENTICATED:
                 return (
-                    <div className="Auth Auth-unauthorized scrollable-flex-column">
-                        <p>Not authorized! Enter a user token below</p>
+                    <div className="Auth Auth-unauthenticated scrollable-flex-column">
+                        <p>Not authenticated! Enter a user token below</p>
                         {this.buildAuthForm()}
                     </div>
                 );
-            case AuthState.ERROR:
+            case AuthenticationStatus.ERROR:
                 return (
-                    <div className="Auth Auth-unauthorized scrollable-flex-column">
+                    <div className="Auth Auth-unauthenticated scrollable-flex-column">
                         <p>Error</p>
-                        {this.props.authorization.message}
+                        {this.props.authentication.message}
                     </div>
                 );
             default:
@@ -100,19 +100,19 @@ export default class Auth extends React.Component<AuthIntegrationProps, AuthInte
     }
 
     buildAuthProd() {
-        switch (this.props.authorization.status) {
-            case AuthState.NONE:
-            case AuthState.CHECKING:
+        switch (this.props.authentication.status) {
+            case AuthenticationStatus.NONE:
+            case AuthenticationStatus.CHECKING:
                 return <div />;
-            case AuthState.AUTHORIZED:
-                return <div className="Auth Auth-authorized scrollable-flex-column">{this.props.children}</div>;
-            case AuthState.UNAUTHORIZED:
+            case AuthenticationStatus.AUTHENTICATED:
+                return <div className="Auth Auth-authenticated scrollable-flex-column">{this.props.children}</div>;
+            case AuthenticationStatus.UNAUTHENTICATED:
                 return (
-                    <div className="Auth Auth-unauthorized scrollable-flex-column">
-                        <p>Not authorized!</p>
+                    <div className="Auth Auth-unauthenticated scrollable-flex-column">
+                        <p>Not authenticated!</p>
                     </div>
                 );
-            case AuthState.ERROR:
+            case AuthenticationStatus.ERROR:
                 return (
                     <div className="Auth Auth-error scrollable-flex-column">
                         <p>Error: ??</p>

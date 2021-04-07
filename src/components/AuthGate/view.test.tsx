@@ -1,24 +1,18 @@
 import * as React from 'react';
-import {render} from '@testing-library/react';
+import { render } from '@testing-library/react';
 import AuthGate from './view'
-import { AuthState } from '../../redux/auth/store';
+import { AuthenticationAuthenticated, AuthenticationStatus } from '../../redux/auth/store';
 
 it('renders without crashing', () => {
-    render(<AuthGate token="abc" isAuthorized={true} required={true} authState={AuthState.AUTHORIZED} />);
+    const authentication: AuthenticationAuthenticated = {
+        status: AuthenticationStatus.AUTHENTICATED,
+        userAuthentication: {
+            token: 'abc123',
+            username: 'abc',
+            realname: 'A B C',
+            roles: []
+        }
+
+    }
+    render(<AuthGate required={true} authentication={authentication} />);
 });
-
-// TODO
-
-// it('renders children ', () => {
-//     const children = (
-//         <div>
-//             hello
-//         </div>
-//     )
-//     const component = <AuthGate token="abc" isAuthorized={true} required={true} authState={AuthState.AUTHORIZED}>
-//         {children}
-//     </AuthGate>
-//     const rendered = mount(component);
-//     rendered.unmount();
-//
-// })

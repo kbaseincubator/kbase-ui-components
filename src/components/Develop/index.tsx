@@ -1,43 +1,39 @@
 import { Dispatch, Action } from 'redux';
 import { connect } from 'react-redux';
 import { BaseStoreState } from '../../redux/store';
-
 import Develop from './view';
-import { Authorization } from '../../redux/auth/store';
-// import { RootState } from '../../redux/root/store';
-import { DevelopActionType, DevelopStart, start } from '../../redux/develop/actions';
+import { Authentication } from '../../redux/auth/store';
+import { start } from '../../redux/develop/actions';
 import { DevelopStatus } from '../../redux/develop/store';
-import { addAuthorization, removeAuthorization } from '../../redux/auth/actions';
+import { addAuthentication, removeAuthentication } from '../../redux/auth/actions';
 
 export interface OwnProps { }
 
 interface StateProps {
     title: string;
     hostChannelId: string | null;
-    channelId: string | null;
-    // rootState: RootState;
-    authorization: Authorization;
+    pluginChannelId: string | null;
+    authentication: Authentication;
     developStatus: DevelopStatus;
 }
 
 interface DispatchProps {
     start: (window: Window) => void;
-    addAuthorization: (token: string) => void;
-    removeAuthorization: () => void;
+    addAuthentication: (token: string) => void;
+    removeAuthentication: () => void;
 }
 
 export function mapStateToProps(state: BaseStoreState, props: OwnProps): StateProps {
     const {
-        root: { hostChannelId, channelId },
-        develop: { title, status: developStatus },
-        auth
+        develop: { title, status: developStatus, channels },
+        authentication
     } = state;
 
     return {
         title,
-        hostChannelId,
-        channelId,
-        authorization: auth,
+        hostChannelId: channels?.hostChannelId || null,
+        pluginChannelId: channels?.pluginChannelId || null,
+        authentication,
         developStatus
     };
 }
@@ -45,16 +41,13 @@ export function mapStateToProps(state: BaseStoreState, props: OwnProps): StatePr
 export function mapDispatchToProps(dispatch: Dispatch<Action>): DispatchProps {
     return {
         start: (window: Window) => {
-            dispatch({
-                type: DevelopActionType.DEVELOP_START
-            } as DevelopStart);
             dispatch(start(window) as any);
         },
-        addAuthorization: (token: string) => {
-            dispatch(addAuthorization(token) as any);
+        addAuthentication: (token: string) => {
+            dispatch(addAuthentication(token) as any);
         },
-        removeAuthorization: () => {
-            dispatch(removeAuthorization() as any);
+        removeAuthentication: () => {
+            dispatch(removeAuthentication() as any);
         }
     };
 }

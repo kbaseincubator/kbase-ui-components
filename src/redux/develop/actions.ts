@@ -3,10 +3,9 @@ import { WindowChannel } from '@kbase/ui-lib';
 import { BaseStoreState } from '../store';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppConfig, Params } from '../integration/store';
-import { Auth, AuthState } from '@kbase/ui-lib';
+import { Auth, AuthenticationStatus } from '@kbase/ui-lib';
 import { WindowChannelInit } from "@kbase/ui-lib/lib/lib/windowChannel";
 import { v4 as uuidv4 } from 'uuid';
-import RequestFetcher from './Request';
 
 export enum DevelopActionType {
     DEVELOP_SET_TITLE = '@kbase-ui-components:develop_set_title',
@@ -30,7 +29,7 @@ export interface DevelopStart extends Action<DevelopActionType.DEVELOP_START> {
 export interface DevelopLoadSuccess extends Action<DevelopActionType.DEVELOP_LOAD_SUCCESS> {
     type: DevelopActionType.DEVELOP_LOAD_SUCCESS;
     hostChannelId: string;
-    channelId: string;
+    pluginChannelId: string;
 }
 
 export interface DevelopSetView extends Action<DevelopActionType.DEVELOP_SET_VIEW> {
@@ -53,11 +52,11 @@ export function setTitle(title: string): DevelopSetTitle {
     };
 }
 
-export function loadSuccess(hostChannelId: string, channelId: string): DevelopLoadSuccess {
+export function loadSuccess(hostChannelId: string, pluginChannelId: string): DevelopLoadSuccess {
     return {
         type: DevelopActionType.DEVELOP_LOAD_SUCCESS,
         hostChannelId,
-        channelId
+        pluginChannelId
     };
 }
 
@@ -134,42 +133,10 @@ const devConfig: AppConfig = {
     }
 };
 
-function navigateWithHash() {
-    const request = new RequestFetcher().getHashRequest();
-    const { route, params } = this.router.findRoute(request);
-    this.props.navigate({
-        view: route.view,
-        params
-    });
-}
-
-function setupHashListener() {
-    // Navigate on change of the hash
-    window.addEventListener('hashchange', (ev: HashChangeEvent) => {
-        const url = new URL(ev.newURL);
-        const hash = url.hash;
-        if (!hash) {
-            throw new Error('no hash!');
-        }
-        this.navigateWithHash();
-    });
-
-    // First time here, we also want to navigate based on the
-    // hash, or if empty (the default when a dev session starts)
-    // use some default interesting taxon id.
-
-    // don't do initial nav for now
-    // return;
-    const hash = window.location.hash;
-    if (!hash) {
-        throw new Error('no hash!');
-    }
-
-    this.navigateWithHash();
-
-}
-
 function setupAndStartChannel(dispatch: ThunkDispatch<BaseStoreState, void, Action>): WindowChannel {
+    // The following simulates what a host environment would do.
+
+    // Create a host channel.
     const chan = new WindowChannelInit()
     channel = chan.makeChannel(uuidv4())
 
@@ -179,14 +146,13 @@ function setupAndStartChannel(dispatch: ThunkDispatch<BaseStoreState, void, Acti
         // We get the initial auth info for this kbase session.
         const auth = new Auth(devConfig.services.Auth.url);
         const authInfo = await auth.checkAuth();
+        console.log('HMM', devConfig, authInfo);
 
-        if (authInfo.status === AuthState.AUTHENTICATED) {
+        if (authInfo.status === AuthenticationStatus.AUTHENTICATED) {
+            const {token, username, realname, roles} = authInfo.userAuthentication;
             channel.send('start', {
-                authorization: {
-                    token: authInfo.userAuthorization!.token,
-                    username: authInfo.userAuthorization!.username,
-                    realname: authInfo.userAuthorization!.realname,
-                    roles: authInfo.userAuthorization!.roles
+                authentication: {
+                    token, username, realname, roles
                 },
                 config: devConfig,
                 // TODO: refactor this to reflect the actual view and params in the dev tool.
@@ -195,8 +161,9 @@ function setupAndStartChannel(dispatch: ThunkDispatch<BaseStoreState, void, Acti
                 }
             });
         } else {
+            console.warn('[setupAndStartChannel] READY, sending "start"', devConfig);
             channel.send('start', {
-                authorization: null,
+                authentication: null,
                 config: devConfig
             });
         }
@@ -205,12 +172,10 @@ function setupAndStartChannel(dispatch: ThunkDispatch<BaseStoreState, void, Acti
     channel.on('get-auth-status', async () => {
         const auth = new Auth(devConfig.services.Auth.url);
         const authInfo = await auth.checkAuth();
-        if (authInfo.status === AuthState.AUTHENTICATED) {
+        if (authInfo.status === AuthenticationStatus.AUTHENTICATED) {
+            const {token, username, realname, roles} = authInfo.userAuthentication;
             channel.send('auth-status', {
-                token: authInfo.userAuthorization!.token,
-                username: authInfo.userAuthorization!.username,
-                realname: authInfo.userAuthorization!.realname,
-                roles: authInfo.userAuthorization!.roles
+                token, username, realname, roles
             });
         } else {
             channel.send('auth-status', {
@@ -234,36 +199,7 @@ function setupAndStartChannel(dispatch: ThunkDispatch<BaseStoreState, void, Acti
 
     channel.on('open-window', ({ url }) => {
         window.location.href = url;
-        // window.open(url, name);
     });
-
-    // channel.on('set-plugin-params', ({ pluginParams }) => {
-    //     if (Object.keys(pluginParams) === 0) {
-    //         window.location.search = '';
-    //         return;
-    //     }
-    //     const query = {};
-    //     if (pluginParams.query) {
-    //         query.query = pluginParams.query;
-    //     }
-    //     if (pluginParams.dataPrivacy && pluginParams.dataPrivacy.length > 0) {
-    //         query.dataPrivacy = pluginParams.dataPrivacy.join(',');
-    //     }
-    //     if (pluginParams.workspaceTypes && pluginParams.workspaceTypes.length > 0) {
-    //         query.workspaceTypes = pluginParams.workspaceTypes.join(',');
-    //     }
-    //     if (pluginParams.dataTypes) {
-    //         query.dataTypes = pluginParams.dataTypes.join(',');
-    //     }
-
-    //     // prepare the params.
-    //     const queryString = httpUtils.encodeQuery(query);
-
-    //     const currentLocation = window.location.toString();
-    //     const currentURL = new URL(currentLocation);
-    //     currentURL.search = queryString;
-    //     history.replaceState(null, '', currentURL.toString());
-    // });
 
     // this.channel.on('send-instrumentation', (instrumentation) => {
     // });
@@ -286,18 +222,16 @@ function setupAndStartChannel(dispatch: ThunkDispatch<BaseStoreState, void, Acti
     return channel;
 }
 
-// export function start(channelId: string): DevelopStart {
-//     return {
-//         type: DevelopActionType.DEVELOP_START,
-//         window
-//     };
-// }
-
 export function start(window: Window) {
     return async (dispatch: ThunkDispatch<BaseStoreState, void, Action>, getState: () => BaseStoreState) => {
-        // create channel
+        console.log('[start] develop')
+        dispatch({
+            type: DevelopActionType.DEVELOP_START
+        } as DevelopStart);
 
+        // create channel
         const channel = setupAndStartChannel(dispatch);
+        console.log('[start] develop 2')
 
         // set channel id via action
         dispatch(loadSuccess(channel.getId(), channel.getPartnerId()));

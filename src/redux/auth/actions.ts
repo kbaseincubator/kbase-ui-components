@@ -8,11 +8,11 @@ export enum AuthActionType {
     AUTH_CHECK = '@kbase-ui-components:auth check',
     AUTH_CHECK_START = '@kbase-ui-components:auth check start',
     AUTH_CHECK_ERROR = '@kbase-ui-components:auth check error',
-    AUTH_AUTHORIZED = '@kbase-ui-components:auth authorized',
-    AUTH_UNAUTHORIZED = '@kbase-ui-components:auth unauthorized',
-    AUTH_REMOVE_AUTHORIZATION = '@kbase-ui-components:auth remove authorization',
-    AUTH_ADD_AUTHORIZATION = '@kbase-ui-components:auth add authorization',
-    AUTH_ADD_AUTHORIZATION_ERROR = '@kbase-ui-components:auth add authorization error'
+    AUTH_AUTHENTICATED = '@kbase-ui-components:auth authenticated',
+    AUTH_UNAUTHENTICATED = '@kbase-ui-components:auth unauthenticated',
+    AUTH_REMOVE_AUTHENTICATION = '@kbase-ui-components:auth remove authentication',
+    AUTH_ADD_AUTHENTICATION = '@kbase-ui-components:auth add authentication',
+    AUTH_ADD_AUTHENTICATION_ERROR = '@kbase-ui-components:auth add authentication error'
 }
 
 // Action Definitions
@@ -30,24 +30,24 @@ export interface AuthCheckError extends Action {
     error: AppError;
 }
 
-export interface AuthAuthorized extends Action {
-    type: AuthActionType.AUTH_AUTHORIZED;
+export interface AuthAuthenticated extends Action {
+    type: AuthActionType.AUTH_AUTHENTICATED;
     token: string;
     username: string;
     realname: string;
     roles: Array<string>;
 }
 
-export interface AuthUnauthorized extends Action {
-    type: AuthActionType.AUTH_UNAUTHORIZED;
+export interface AuthUnauthenticated extends Action {
+    type: AuthActionType.AUTH_UNAUTHENTICATED;
 }
 
-export interface AuthRemoveAuthorization extends Action {
-    type: AuthActionType.AUTH_REMOVE_AUTHORIZATION;
+export interface AuthRemoveAuthentication extends Action {
+    type: AuthActionType.AUTH_REMOVE_AUTHENTICATION;
 }
 
-export interface AuthAddAuthorization extends Action {
-    type: AuthActionType.AUTH_ADD_AUTHORIZATION;
+export interface AuthAddAuthentication extends Action {
+    type: AuthActionType.AUTH_ADD_AUTHENTICATION;
     token: string;
 }
 
@@ -66,14 +66,14 @@ export function authCheckError(error: AppError): AuthCheckError {
     };
 }
 
-export function authAuthorized(
+export function authAuthenticated(
     token: string,
     username: string,
     realname: string,
     roles: Array<string>
-): AuthAuthorized {
+): AuthAuthenticated {
     return {
-        type: AuthActionType.AUTH_AUTHORIZED,
+        type: AuthActionType.AUTH_AUTHENTICATED,
         token,
         username,
         realname,
@@ -81,29 +81,16 @@ export function authAuthorized(
     };
 }
 
-export function authUnauthorized(): AuthUnauthorized {
+export function authUnauthenticated(): AuthUnauthenticated {
     return {
-        type: AuthActionType.AUTH_UNAUTHORIZED
+        type: AuthActionType.AUTH_UNAUTHENTICATED
     };
 }
-
-// export function authRemoveAuthorization(): AuthRemoveAuthorization {
-//     return {
-//         type: ActionFlag.AUTH_REMOVE_AUTHORIZATION
-//     }
-// }
-
-// export function authAddAuthorization(token: string): AuthAddAuthorization {
-//     return {
-//         type: ActionFlag.AUTH_ADD_AUTHORIZATION,
-//         token: token
-//     }
-// }
 
 // Action Thunks
 
 export function checkAuth() {
-    return (dispatch: ThunkDispatch<BaseStoreState, void, Action>, getState: () => BaseStoreState) => {
+    return async (dispatch: ThunkDispatch<BaseStoreState, void, Action>, getState: () => BaseStoreState) => {
         dispatch(authCheckStart());
 
         const {
@@ -116,45 +103,44 @@ export function checkAuth() {
             }
         } = getState();
 
-        // TODO: get the auth from the kbase-ui integration api, perhaps a postmessage call
+        console.warn('[checkAuth]', url, getState());
 
         const token = Cookies.get('kbase_session');
         if (!token) {
-            dispatch(authUnauthorized());
+            dispatch(authUnauthenticated());
             return;
         }
 
         const auth = new AuthClient({ url: url });
 
         // Oh no, an orphan promise!
-        Promise.all([auth.getTokenInfo(token), auth.getMe(token)])
-            .then(([tokenInfo, account]) => {
-                const roles = account.roles.map(({ id, desc }) => id);
-                dispatch(authAuthorized(token, account.user, account.display, roles));
-            })
-            .catch((err) => {
-                console.error('auth check error', err);
-                dispatch(
-                    authCheckError({
-                        code: 'error',
-                        message: err.message
-                    })
-                );
-            });
+
+        try {
+            const account = await auth.getMe(token);
+            const roles = account.roles.map(({ id, desc }) => id);
+            dispatch(authAuthenticated(token, account.user, account.display, roles));
+        } catch (err) {
+            dispatch(
+                authCheckError({
+                    code: 'error',
+                    message: err.message
+                })
+            );
+        }
     };
 }
 
-export function removeAuthorization() {
+export function removeAuthentication() {
     return (dispatch: ThunkDispatch<BaseStoreState, void, Action>, getState: () => BaseStoreState) => {
         // remove cookie
         Cookies.remove('kbase_session');
 
         // remove auth in state
-        dispatch(authUnauthorized());
+        dispatch(authUnauthenticated());
     };
 }
 
-export function addAuthorization(token: string) {
+export function addAuthentication(token: string) {
     return async (dispatch: ThunkDispatch<BaseStoreState, void, Action>, getState: () => BaseStoreState) => {
         const {
             app: {
@@ -167,14 +153,14 @@ export function addAuthorization(token: string) {
         } = getState();
 
         // TODO: get auth info
-        const auth = new AuthClient({ url: url });
+        const auth = new AuthClient({ url });
 
         try {
             const account = await auth.getMe(token);
             const roles = account.roles.map(({ id }) => id);
             // add cookie
             Cookies.set('kbase_session', token);
-            dispatch(authAuthorized(token, account.user, account.display, roles));
+            dispatch(authAuthenticated(token, account.user, account.display, roles));
         } catch (err) {
             console.error('auth check error', err);
             dispatch(

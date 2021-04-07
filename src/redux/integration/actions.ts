@@ -6,7 +6,7 @@ import { WindowChannel } from '@kbase/ui-lib';
 import { AppConfig, AppRuntime, Navigation } from './store';
 import { AppError, BaseStoreState } from '../store';
 import { getParamsFromDOM, isDevFrame } from '../../lib/IFrameIntegration';
-import { authAuthorized } from '../auth/actions';
+import { authAuthenticated, authUnauthenticated } from '../auth/actions';
 
 // Action types
 
@@ -127,83 +127,81 @@ export function appStart() {
         // start message contains enough data for most apps to start
         // going, including core service configuration and communication
         // settings.
-        channel.on(
-            'start',
+        channel.on('start',
             (params: any) => {
+                console.warn('[appStart]', devMode, hostChannelId, channelId, params);
                 try {
                     const services = params.config.services;
                     const dynamicServices = params.config.dynamicServices;
-                    dispatch(
-                        loadSuccess(
-                            {
-                                baseUrl: '',
-                                services: {
-                                    Groups: {
-                                        url: services.Groups.url
-                                    },
-                                    UserProfile: {
-                                        url: services.UserProfile.url
-                                    },
-                                    Workspace: {
-                                        url: services.Workspace.url
-                                    },
-                                    SearchAPI2: {
-                                        url: services.SearchAPI2.url
-                                    },
-                                    SearchAPI2Legacy: {
-                                        url: services.SearchAPI2Legacy.url
-                                    },
-                                    ServiceWizard: {
-                                        url: services.ServiceWizard.url
-                                    },
-                                    Auth: {
-                                        url: services.Auth.url
-                                    },
-                                    NarrativeMethodStore: {
-                                        url: services.NarrativeMethodStore.url
-                                    },
-                                    Catalog: {
-                                        url: services.Catalog.url
-                                    },
-                                    NarrativeJobService: {
-                                        url: services.NarrativeJobService.url
-                                    },
-                                    RelationEngine: {
-                                        url: services.RelationEngine.url
-                                    }
-                                },
-                                dynamicServices: {
-                                    JobBrowserBFF: {
-                                        version: dynamicServices.JobBrowserBFF.version
-                                    },
-                                    SampleService: {
-                                        version: dynamicServices.SampleService.version
-                                    },
-                                    OntologyAPI: {
-                                        version: dynamicServices.OntologyAPI.version
-                                    },
-                                    TaxonomyAPI: {
-                                        version: dynamicServices.TaxonomyAPI.version
-                                    }
-                                },
-                                defaultPath: '/'
+                    dispatch(loadSuccess({
+                        baseUrl: '',
+                        services: {
+                            Groups: {
+                                url: services.Groups.url
                             },
-                            {
-                                channelId: channel.getId(),
-                                hostChannelId,
-                                devMode,
-                                title: '',
-                                navigation: {
-                                    view: params.view,
-                                    params: params.params || {}
-                                }
+                            UserProfile: {
+                                url: services.UserProfile.url
+                            },
+                            Workspace: {
+                                url: services.Workspace.url
+                            },
+                            SearchAPI2: {
+                                url: services.SearchAPI2.url
+                            },
+                            SearchAPI2Legacy: {
+                                url: services.SearchAPI2Legacy.url
+                            },
+                            ServiceWizard: {
+                                url: services.ServiceWizard.url
+                            },
+                            Auth: {
+                                url: services.Auth.url
+                            },
+                            NarrativeMethodStore: {
+                                url: services.NarrativeMethodStore.url
+                            },
+                            Catalog: {
+                                url: services.Catalog.url
+                            },
+                            NarrativeJobService: {
+                                url: services.NarrativeJobService.url
+                            },
+                            RelationEngine: {
+                                url: services.RelationEngine.url
                             }
-                        )
-                    );
+                        },
+                        dynamicServices: {
+                            JobBrowserBFF: {
+                                version: dynamicServices.JobBrowserBFF.version
+                            },
+                            SampleService: {
+                                version: dynamicServices.SampleService.version
+                            },
+                            OntologyAPI: {
+                                version: dynamicServices.OntologyAPI.version
+                            },
+                            TaxonomyAPI: {
+                                version: dynamicServices.TaxonomyAPI.version
+                            }
+                        },
+                        defaultPath: '/'
+                    },
+                        {
+                            channelId: channel.getId(),
+                            hostChannelId,
+                            devMode,
+                            title: '',
+                            navigation: {
+                                view: params.view,
+                                params: params.params || {}
+                            }
+                        }));
 
-                    if (params.authorization) {
-                        const { token, username, realname, roles } = params.authorization;
-                        dispatch(authAuthorized(token, username, realname, roles));
+                    if (params.authentication) {
+                        const { token, username, realname, roles } = params.authentication;
+                        dispatch(authAuthenticated(token, username, realname, roles));
+                    } else {
+                        dispatch(authUnauthenticated());
                     }
                 } catch (ex) {
                     channel.send('start-error', {
@@ -230,20 +228,21 @@ export function appStart() {
 
         channel.start();
 
-        // The 'ready' message is sent by the plugin (via the integration component and
-        // associated actions like this one) to the ui to indicate that the initial code is loaded
-        // and it is ready for further instructions (which in all likelihood is the 'start'
-        // message handled above.)
-        channel.send('ready', {
-            channelId: channel.getId(),
-            greeting: 'hello'
-        });
-
         // Here we propagate the click event to the parent window (or at least the host channel).
         windowListener = () => {
             channel.send('clicked', {});
         };
         window.document.body.addEventListener('click', windowListener);
+
+        // The 'ready' message is sent by the plugin (via the integration component and
+        // associated actions like this one) to the ui to indicate that the initial code is loaded
+        // and it is ready for further instructions (which in all likelihood is the 'start'
+        // message handled above.)
+        console.log('sending ready!', channel.getId(), channel.getPartnerId());
+        channel.send('ready', {
+            channelId: channel.getId(),
+            greeting: 'hello'
+        });
 
         // dispatch(appStartSuccess(channelId));
 

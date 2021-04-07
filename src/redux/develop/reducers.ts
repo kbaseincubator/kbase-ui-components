@@ -16,13 +16,13 @@ function setTitle(state: BaseStoreState, action: DevelopSetTitle): BaseStoreStat
 function loadSuccess(state: BaseStoreState, action: DevelopLoadSuccess): BaseStoreState {
     return {
         ...state,
-        root: {
-            ...state.root,
-            hostChannelId: action.hostChannelId
-        },
         develop: {
             ...state.develop,
-            status: DevelopStatus.READY
+            status: DevelopStatus.READY,
+            channels: {
+                hostChannelId: action.hostChannelId,
+                pluginChannelId: action.pluginChannelId
+            }
         }
     };
 }

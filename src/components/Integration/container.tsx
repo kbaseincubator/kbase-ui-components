@@ -1,7 +1,5 @@
 import { Dispatch, Action } from 'redux';
 import { connect } from 'react-redux';
-// import { AppStoreState } from '../../redux/integration/store';
-
 import { appStart } from '../../redux/integration/actions';
 import IntegrationComponent from './view';
 import { BaseStoreState } from '../../redux/store';
@@ -14,7 +12,7 @@ import { BaseStoreState } from '../../redux/store';
 
 // Connect to the Redux Store
 
-export interface OwnProps {}
+export interface OwnProps { }
 
 interface StateProps {
     defaultPath: string;
@@ -30,7 +28,6 @@ interface DispatchProps {
 export function mapStateToProps(state: BaseStoreState, props: OwnProps): StateProps {
     const {
         app: {
-            status,
             config: { defaultPath },
             runtime: { title }
         },

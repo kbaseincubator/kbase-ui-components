@@ -237,7 +237,6 @@ export function appStart() {
         // associated actions like this one) to the ui to indicate that the initial code is loaded
         // and it is ready for further instructions (which in all likelihood is the 'start'
         // message handled above.)
-        console.log('sending ready!', channel.getId(), channel.getPartnerId());
         channel.send('ready', {
             channelId: channel.getId(),
             greeting: 'hello'

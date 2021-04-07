@@ -146,7 +146,6 @@ function setupAndStartChannel(dispatch: ThunkDispatch<BaseStoreState, void, Acti
         // We get the initial auth info for this kbase session.
         const auth = new Auth(devConfig.services.Auth.url);
         const authInfo = await auth.checkAuth();
-        console.log('HMM', devConfig, authInfo);
 
         if (authInfo.status === AuthenticationStatus.AUTHENTICATED) {
             const {token, username, realname, roles} = authInfo.userAuthentication;
@@ -223,14 +222,12 @@ function setupAndStartChannel(dispatch: ThunkDispatch<BaseStoreState, void, Acti
 
 export function start(window: Window) {
     return async (dispatch: ThunkDispatch<BaseStoreState, void, Action>, getState: () => BaseStoreState) => {
-        console.log('[start] develop')
         dispatch({
             type: DevelopActionType.DEVELOP_START
         } as DevelopStart);
 
         // create channel
         const channel = setupAndStartChannel(dispatch);
-        console.log('[start] develop 2')
 
         // set channel id via action
         dispatch(loadSuccess(channel.getId(), channel.getPartnerId()));

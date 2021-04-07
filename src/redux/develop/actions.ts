@@ -161,7 +161,6 @@ function setupAndStartChannel(dispatch: ThunkDispatch<BaseStoreState, void, Acti
                 }
             });
         } else {
-            console.warn('[setupAndStartChannel] READY, sending "start"', devConfig);
             channel.send('start', {
                 authentication: null,
                 config: devConfig

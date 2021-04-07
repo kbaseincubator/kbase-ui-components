@@ -103,8 +103,6 @@ export function checkAuth() {
             }
         } = getState();
 
-        console.warn('[checkAuth]', url, getState());
-
         const token = Cookies.get('kbase_session');
         if (!token) {
             dispatch(authUnauthenticated());

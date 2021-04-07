@@ -129,7 +129,6 @@ export function appStart() {
         // settings.
         channel.on('start',
             (params: any) => {
-                console.warn('[appStart]', devMode, hostChannelId, channelId, params);
                 try {
                     const services = params.config.services;
                     const dynamicServices = params.config.dynamicServices;

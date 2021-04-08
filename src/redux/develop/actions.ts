@@ -4,7 +4,7 @@ import { BaseStoreState } from '../store';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppConfig, Params } from '../integration/store';
 import { Auth, AuthenticationStatus } from '@kbase/ui-lib';
-import { WindowChannelInit } from "@kbase/ui-lib/lib/lib/windowChannel";
+import { WindowChannelInit } from "@kbase/ui-lib/lib/windowChannel";
 import { v4 as uuidv4 } from 'uuid';
 
 export enum DevelopActionType {

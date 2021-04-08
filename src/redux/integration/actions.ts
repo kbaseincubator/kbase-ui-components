@@ -1,6 +1,6 @@
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
-import { WindowChannelInit } from "@kbase/ui-lib/lib/lib/windowChannel";
+import { WindowChannelInit } from "@kbase/ui-lib/lib/windowChannel";
 import { WindowChannel } from '@kbase/ui-lib';
 
 import { AppConfig, AppRuntime, Navigation } from './store';

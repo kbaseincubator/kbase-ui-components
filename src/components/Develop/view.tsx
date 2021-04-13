@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Alert, Spin, Tag } from 'antd';
 import { LoginOutlined, LogoutOutlined } from '@ant-design/icons';
 import { Authentication, AuthenticationStatus } from '../../redux/auth/store';
-import { DevelopStatus } from '../../redux/develop/store';
+import {DevelopState, DevelopStateError, DevelopStateReady, DevelopStatus} from '../../redux/develop/store';
 import './style.css';
 
 function authStateLabel(status: AuthenticationStatus) {
@@ -24,10 +24,11 @@ function authStateLabel(status: AuthenticationStatus) {
 
 export interface DevelopProps {
     authentication: Authentication;
-    title?: string;
-    hostChannelId: string | null;
-    pluginChannelId: string | null;
-    developStatus: DevelopStatus;
+    develop: DevelopState;
+    title: string;
+    // hostChannelId: string | null;
+    // pluginChannelId: string | null;
+    // developStatus: DevelopStatus;
     removeAuthentication: () => void;
     addAuthentication: (token: string) => void;
     start: (window: Window) => void;
@@ -123,24 +124,33 @@ export default class Develop extends React.Component<DevelopProps, DevelopCompon
         }
     }
 
-    renderDevError() {
-        return <div>Dev Error</div>;
+    renderDevError(develop: DevelopStateError) {
+        return <div>Dev Error: ${develop.message}</div>;
     }
 
-    renderDevReady() {
+    renderDevWrapper(develop: DevelopStateReady) {
+        if (develop.channels === null) {
+            return;
+        }
         const params = {
-            hostChannelId: this.props.hostChannelId,
-            pluginChannelId: this.props.pluginChannelId
+            hostChannelId: develop.channels.hostChannelId,
+            pluginChannelId: develop.channels.pluginChannelId
         };
         const paramsString = JSON.stringify(params);
+        return  <div data-params={encodeURIComponent(paramsString)} data-plugin-host="true" className="Develop">
+            {this.props.children}
+        </div>;
+    }
+
+    renderDevReady(develop: DevelopStateReady) {
         return (
-            <div data-params={encodeURIComponent(paramsString)} data-plugin-host="true" className="Develop">
+            <div className="Develop">
                 <div className="Develop-area">
                     <Tag>Develop Mode Area</Tag>
                     {this.renderTitleToolbar()}
                     {this.renderAuth()}
                 </div>
-                {this.props.children}
+                {this.renderDevWrapper(develop)}
             </div>
         );
     }
@@ -166,24 +176,17 @@ export default class Develop extends React.Component<DevelopProps, DevelopCompon
         );
     }
 
-    renderDebug() {
-        return (
-            <div className="Develop-debug">
-                Development: dev status: {this.props.developStatus}, channel:{this.props.hostChannelId}
-            </div>
-        );
-    }
-
     render() {
-        switch (this.props.developStatus) {
+        const develop = this.props.develop;
+        switch (develop.status) {
             case DevelopStatus.NONE:
                 return this.renderDevNone();
             case DevelopStatus.LOADING:
                 return this.renderDevLoading();
             case DevelopStatus.ERROR:
-                return this.renderDevError();
+                return this.renderDevError(develop);
             case DevelopStatus.READY:
-                return this.renderDevReady();
+                return this.renderDevReady(develop);
         }
     }
 }

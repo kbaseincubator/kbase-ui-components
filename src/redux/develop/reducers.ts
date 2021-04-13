@@ -1,13 +1,19 @@
-import { Action, Reducer } from 'redux';
-import { DevelopStatus } from './store';
-import { DevelopActionType, DevelopSetTitle, DevelopLoadSuccess, DevelopSetView, DevelopSetParams } from './actions';
-import { BaseStoreState } from '../store';
+import {Action, Reducer} from 'redux';
+import {DevelopStatus} from './store';
+import {DevelopActionType, DevelopLoadSuccess, DevelopSetParams, DevelopSetTitle, DevelopSetView} from './actions';
+import {BaseStoreState} from '../store';
 
 function setTitle(state: BaseStoreState, action: DevelopSetTitle): BaseStoreState {
+    const {
+        develop
+    } = state;
+    if (develop.status !== DevelopStatus.READY) {
+        return state;
+    }
     return {
         ...state,
         develop: {
-            ...state.develop,
+            ...develop,
             title: action.title
         }
     };
@@ -17,7 +23,7 @@ function loadSuccess(state: BaseStoreState, action: DevelopLoadSuccess): BaseSto
     return {
         ...state,
         develop: {
-            ...state.develop,
+            // ...state.develop,
             status: DevelopStatus.READY,
             channels: {
                 hostChannelId: action.hostChannelId,
@@ -28,6 +34,12 @@ function loadSuccess(state: BaseStoreState, action: DevelopLoadSuccess): BaseSto
 }
 
 function setView(state: BaseStoreState, action: DevelopSetView): BaseStoreState {
+    const {
+        develop
+    } = state;
+    if (develop.status !== DevelopStatus.READY) {
+        return state;
+    }
     return {
         ...state,
         app: {
@@ -41,13 +53,19 @@ function setView(state: BaseStoreState, action: DevelopSetView): BaseStoreState 
             }
         },
         develop: {
-            ...state.develop,
+            ...develop,
             view: action.view
         }
     }
 }
 
 function setParams(state: BaseStoreState, action: DevelopSetParams): BaseStoreState {
+     const {
+        develop
+    } = state;
+    if (develop.status !== DevelopStatus.READY) {
+        return state;
+    }
     return {
         ...state,
         app: {
@@ -61,7 +79,7 @@ function setParams(state: BaseStoreState, action: DevelopSetParams): BaseStoreSt
             }
         },
         develop: {
-            ...state.develop,
+            ...develop,
             params: action.params
         }
     }

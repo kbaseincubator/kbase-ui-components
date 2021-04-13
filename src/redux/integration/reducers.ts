@@ -14,6 +14,7 @@ function loadSuccess(state: BaseStoreState, action: AppLoadSuccess): BaseStoreSt
     };
 }
 
+// TODO: should develop state have its own title? really?
 function setTitle(state: BaseStoreState, action: AppSetTitle): BaseStoreState {
     return {
         ...state,
@@ -23,11 +24,11 @@ function setTitle(state: BaseStoreState, action: AppSetTitle): BaseStoreState {
                 ...state.app.runtime,
                 title: action.title
             }
-        },
-        develop: {
-            ...state.develop,
-            title: action.title
         }
+        // develop: {
+        //     ...state.develop,
+        //     title: action.title
+        // }
     };
 }
 

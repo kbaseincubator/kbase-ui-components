@@ -4,17 +4,18 @@ import { BaseStoreState } from '../../redux/store';
 import Develop from './view';
 import { Authentication } from '../../redux/auth/store';
 import { start } from '../../redux/develop/actions';
-import { DevelopStatus } from '../../redux/develop/store';
+import {DevelopState, DevelopStatus} from '../../redux/develop/store';
 import { addAuthentication, removeAuthentication } from '../../redux/auth/actions';
 
 export interface OwnProps { }
 
 interface StateProps {
+    develop: DevelopState
     title: string;
-    hostChannelId: string | null;
-    pluginChannelId: string | null;
+    // hostChannelId: string | null;
+    // pluginChannelId: string | null;
     authentication: Authentication;
-    developStatus: DevelopStatus;
+    // developStatus: DevelopStatus;
 }
 
 interface DispatchProps {
@@ -25,16 +26,23 @@ interface DispatchProps {
 
 export function mapStateToProps(state: BaseStoreState, props: OwnProps): StateProps {
     const {
-        develop: { title, status: developStatus, channels },
+        app: {
+            runtime: {
+                title
+            }
+        },
+        develop,
+        // develop: { title, status: developStatus, channels },
         authentication
     } = state;
 
     return {
+        develop,
         title,
-        hostChannelId: channels?.hostChannelId || null,
-        pluginChannelId: channels?.pluginChannelId || null,
-        authentication,
-        developStatus
+        // hostChannelId: channels?.hostChannelId || null,
+        // pluginChannelId: channels?.pluginChannelId || null,
+        authentication
+        // developStatus
     };
 }
 

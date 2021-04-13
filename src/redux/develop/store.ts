@@ -1,4 +1,4 @@
-import { Params } from "../integration/store";
+import {Params} from "../integration/store";
 
 export enum DevelopAuthStatus {
     NONE = 'NONE',
@@ -49,37 +49,56 @@ export type DevelopAuthentication =
     DevelopAuthenticationError;
 
 export enum DevelopStatus {
-    NONE = 'developStatus/none',
-    LOADING = 'developStatus/loading',
-    READY = 'developStatus/ready',
-    ERROR = 'developStatus/error'
+    NONE = '@kbase-ui-components:developStatus/none',
+    LOADING = '@kbase-ui-components:developStatus/loading',
+    READY = '@kbase-ui-components:developStatus/ready',
+    ERROR = '@kbase-ui-components:developStatus/error'
 }
 
+interface DevelopStateBase {
+    status: DevelopStatus
+}
+
+export interface DevelopStateNone extends DevelopStateBase {
+    status: DevelopStatus.NONE
+}
+
+export interface DevelopStateLoading extends DevelopStateBase {
+    status: DevelopStatus.LOADING
+}
+
+// TODO: most ready state properties should be required
+export interface DevelopStateReady extends DevelopStateBase {
+    status: DevelopStatus.READY,
+    title?: string,
+    view?: string;
+    params?: Params<string>;
+    channels: {
+        hostChannelId: string;
+        pluginChannelId: string;
+    } | null;
+    auth?: DevelopAuthentication;
+}
+
+export interface DevelopStateError extends DevelopStateBase {
+    status: DevelopStatus.ERROR,
+    message: string
+}
+
+export type DevelopState =
+    DevelopStateNone |
+    DevelopStateLoading |
+    DevelopStateReady |
+    DevelopStateError;
+
 export interface DevelopStoreState {
-    develop: {
-        title: string;
-        status: DevelopStatus;
-        view: string;
-        params: Params<string>;
-        channels: {
-            hostChannelId: string;
-            pluginChannelId: string;
-        } | null;
-        auth: DevelopAuthentication;
-    };
+    develop: DevelopState
 }
 
 export function makeDevelopStore(): DevelopStoreState {
     return {
         develop: {
-            title: 'SET TITLE HERE',
             status: DevelopStatus.NONE,
-            view: '',
-            params: {},
-            channels: null,
-            auth: {
-                status: DevelopAuthStatus.NONE
-            }
         }
     };
 }

@@ -28,6 +28,9 @@ export interface AppConfig {
         Workspace: {
             url: string;
         };
+        SampleService: {
+            url: string;
+        };
         SearchAPI2: {
             url: string;
         };
@@ -93,6 +96,9 @@ export function makeIntegrationStoreInitialState(): AppStoreState {
                         url: ''
                     },
                     Workspace: {
+                        url: ''
+                    },
+                    SampleService: {
                         url: ''
                     },
                     SearchAPI2: {

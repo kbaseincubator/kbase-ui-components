@@ -144,6 +144,9 @@ export function appStart() {
                             Workspace: {
                                 url: services.Workspace.url
                             },
+                            SampleService: {
+                                url: services.SampleService.url
+                            },
                             SearchAPI2: {
                                 url: services.SearchAPI2.url
                             },
@@ -172,9 +175,6 @@ export function appStart() {
                         dynamicServices: {
                             JobBrowserBFF: {
                                 version: dynamicServices.JobBrowserBFF.version
-                            },
-                            SampleService: {
-                                version: dynamicServices.SampleService.version
                             },
                             OntologyAPI: {
                                 version: dynamicServices.OntologyAPI.version

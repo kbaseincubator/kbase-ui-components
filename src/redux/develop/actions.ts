@@ -124,9 +124,6 @@ const devConfig: AppConfig = {
         JobBrowserBFF: {
             version: 'dev'
         },
-        SampleService: {
-            version: 'dev'
-        },
         OntologyAPI: {
             version: 'dev'
         },

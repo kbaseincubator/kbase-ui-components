@@ -92,6 +92,9 @@ const devConfig: AppConfig = {
         Workspace: {
             url: `${devOrigin}/services/ws`
         },
+        SampleService: {
+            url: `${devOrigin}/services/sampleservice`
+        },
         SearchAPI2: {
             url: `${devOrigin}/services/searchapi2/rpc`
         },

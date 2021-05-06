@@ -1,5 +1,5 @@
 import React from "react";
-import styles from './Section.module.css';
+import styles from './Section.styles';
 
 export interface SectionProps {
     title: string;
@@ -18,12 +18,12 @@ export default class Section extends React.Component<SectionProps, SectionState>
     }
 
     render() {
-        return <div className={styles.Section}>
-            <div className={styles.Header}>
-                <div className="Title">{this.props.title}</div>
-                <div>{this.renderToolbar()}</div>
+        return <div style={styles.Section}>
+            <div style={styles.Header}>
+                <div style={styles.Title}>{this.props.title}</div>
+                <div style={styles.Toolbar}>{this.renderToolbar()}</div>
             </div>
-            <div className="Body">
+            <div style={styles.Body}>
                 {this.props.children}
             </div>
         </div>;

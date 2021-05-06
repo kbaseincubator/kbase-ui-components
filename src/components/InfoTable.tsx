@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './InfoTable.module.css';
+import styles from './InfoTable.styles';
 import {Tooltip} from "antd";
 
 export interface InfoTableRowBase {
@@ -54,12 +54,11 @@ export default class InfoTable extends React.Component<InfoTableProps, InfoTable
 
     renderRows() {
         return this.props.table.map((row) => {
-
-            return <tr className={styles.Row} key={row.label}>
-                <th className={styles.LabelCol}>
+            return <tr style={styles.Row} key={row.label}>
+                <th style={styles.LabelCol}>
                     {this.renderLabel(row)}
                 </th>
-                <td className={styles.ValueCol}>
+                <td style={styles.ValueCol}>
                     {this.renderContent(row)}
                 </td>
             </tr>;
@@ -74,7 +73,7 @@ export default class InfoTable extends React.Component<InfoTableProps, InfoTable
                 return styles.NormalTable;
             }
         })();
-        return <table className={tableStyle}>
+        return <table style={tableStyle}>
             {this.renderRows()}
         </table>
     }

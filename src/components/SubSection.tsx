@@ -1,5 +1,5 @@
 import React from "react";
-import styles from './SubSection.module.css';
+import styles from "./SubSection.styles";
 
 export interface SubSectionProps {
     title: string;
@@ -19,12 +19,16 @@ export default class SubSection extends React.Component<SubSectionProps, SubSect
     }
 
     render() {
-        return <div className={styles.SubSection}>
-            <div className={styles.Header}>
-                <div className={styles.Title}>{this.props.title}</div>
-                <div>{this.renderToolbar()}</div>
+        return <div style={styles.SubSection}>
+            <div style={styles.Header}>
+                <div style={styles.Title}>
+                    {this.props.title}
+                </div>
+                <div style={styles.Toolbar}>
+                    {this.renderToolbar()}
+                </div>
             </div>
-            <div className={styles.Body}>
+            <div style={styles.Body}>
                 {this.props.children}
             </div>
         </div>;

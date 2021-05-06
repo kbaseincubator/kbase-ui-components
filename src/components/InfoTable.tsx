@@ -1,14 +1,21 @@
 import React from 'react';
 import styles from './InfoTable.module.css';
+import {Tooltip} from "antd";
 
-export type ValueColString = string;
-export type ValueColRenderer = () => React.ReactNode;
-export type ValueCol = ValueColString | ValueColRenderer;
-
-export interface InfoTableRow {
+export interface InfoTableRowBase {
     label: string;
-    value: ValueCol;
+    labelTooltip?: string | (() => React.ReactNode)
 }
+
+export interface InfoTableStringRow extends InfoTableRowBase {
+    value: string;
+}
+
+export interface InfoTableRenderRow extends InfoTableRowBase {
+    render: () => React.ReactNode
+}
+
+export type InfoTableRow = InfoTableStringRow | InfoTableRenderRow;
 
 
 export interface InfoTableProps {
@@ -25,21 +32,35 @@ export default class InfoTable extends React.Component<InfoTableProps, InfoTable
         super(props);
     }
 
-    renderValue(value: ValueCol) {
-        if (typeof value === 'string') {
-            return value;
+    renderContent(row: InfoTableRow) {
+        if ('value' in row) {
+            return row.value;
+        } else if ('render' in row) {
+            return row.render();
         }
-        return value();
+    }
+
+    renderLabel(row: InfoTableRow) {
+        if (row.labelTooltip) {
+            if (typeof row.labelTooltip === 'string') {
+                return <Tooltip title={row.labelTooltip}>{row.label}</Tooltip>
+            } else {
+                return <Tooltip title={row.labelTooltip()}>{row.label}</Tooltip>
+            }
+        } else {
+            return row.label;
+        }
     }
 
     renderRows() {
-        return this.props.table.map(({label, value}) => {
-            return <tr className={styles.Row} key={label}>
+        return this.props.table.map((row) => {
+
+            return <tr className={styles.Row} key={row.label}>
                 <th className={styles.LabelCol}>
-                    {label}
+                    {this.renderLabel(row)}
                 </th>
                 <td className={styles.ValueCol}>
-                    {this.renderValue(value)}
+                    {this.renderContent(row)}
                 </td>
             </tr>;
         });

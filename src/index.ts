@@ -15,3 +15,6 @@ export { default as Loading } from "./components/Loading/Loading";
 export { default as NoData } from "./components/NoData";
 export { default as ErrorBoundary } from "./components/ErrorBoundary";
 export { default as InfoTable } from "./components/InfoTable";
+export { default as Section } from "./components/Section";
+export { default as SubSection } from "./components/SubSection";
+

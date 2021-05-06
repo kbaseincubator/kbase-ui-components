@@ -14,3 +14,4 @@ export { default as FlexTabs } from "./components/FlexTabs";
 export { default as Loading } from "./components/Loading/Loading";
 export { default as NoData } from "./components/NoData";
 export { default as ErrorBoundary } from "./components/ErrorBoundary";
+export { default as InfoTable } from "./components/InfoTable";

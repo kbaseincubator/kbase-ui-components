@@ -13,7 +13,8 @@ const styles: Styles = {
     labelCol: {
         color: 'rgba(175, 175, 175, 1)',
         padding: '4px',
-        verticalAlign: 'top'
+        verticalAlign: 'top',
+        whiteSpace: 'nowrap'
     },
     contentCol: {
         padding: '4px',

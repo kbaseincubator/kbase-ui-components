@@ -1,21 +1,14 @@
 import React from 'react';
-import styles from './InfoTable.styles';
-import {Tooltip} from "antd";
+import styles from './InfoTable.module.css';
 
-export interface InfoTableRowBase {
+export type ValueColString = string;
+export type ValueColRenderer = () => React.ReactNode;
+export type ValueCol = ValueColString | ValueColRenderer;
+
+export interface InfoTableRow {
     label: string;
-    labelTooltip?: string | (() => React.ReactNode)
+    value: ValueCol;
 }
-
-export interface InfoTableStringRow extends InfoTableRowBase {
-    value: string;
-}
-
-export interface InfoTableRenderRow extends InfoTableRowBase {
-    render: () => React.ReactNode
-}
-
-export type InfoTableRow = InfoTableStringRow | InfoTableRenderRow;
 
 
 export interface InfoTableProps {
@@ -32,48 +25,36 @@ export default class InfoTable extends React.Component<InfoTableProps, InfoTable
         super(props);
     }
 
-    renderContent(row: InfoTableRow) {
-        if ('value' in row) {
-            return row.value;
-        } else if ('render' in row) {
-            return row.render();
+    renderValue(value: ValueCol) {
+        if (typeof value === 'string') {
+            return value;
         }
-    }
-
-    renderLabel(row: InfoTableRow) {
-        if (row.labelTooltip) {
-            if (typeof row.labelTooltip === 'string') {
-                return <Tooltip title={row.labelTooltip}>{row.label}</Tooltip>
-            } else {
-                return <Tooltip title={row.labelTooltip()}>{row.label}</Tooltip>
-            }
-        } else {
-            return row.label;
-        }
+        return value();
     }
 
     renderRows() {
-        return this.props.table.map((row) => {
-
-            return <tr style={styles.row} key={row.label}>
-                <th style={styles.labelCol}>
-                    {this.renderLabel(row)}
+        return this.props.table.map(({label, value}) => {
+            return <tr className={styles.Row} key={label}>
+                <th className={styles.LabelCol}>
+                    {label}
                 </th>
-                <td style={styles.contentCol}>
-                    {this.renderContent(row)}
+                <td className={styles.ValueCol}>
+                    {this.renderValue(value)}
                 </td>
             </tr>;
         });
     }
 
     render() {
-        let tableStyle = {...styles.main};
-        if (this.props.bordered) {
-            tableStyle = {...tableStyle, ...styles.bordered}
-            // Object.assign(tableStyle, styles.bordered);
-        }
-        return <table style={tableStyle}>
+        const tableStyle = (() => {
+            if (this.props.bordered) {
+                return styles.BorderedTable;
+            } else {
+                return styles.NormalTable;
+            }
+        })();
+        return <table className={tableStyle}>
             {this.renderRows()}
-        </table>;
+        </table>
     }
 }

@@ -16,7 +16,8 @@ const styles: Styles = {
         verticalAlign: 'top'
     },
     contentCol: {
-        padding: '4px'
+        padding: '4px',
+        width: '100%'
     }
 };
 export default styles;

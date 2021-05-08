@@ -1,10 +1,10 @@
 import React from 'react';
 import styles from './InfoTable.styles';
-import {Tooltip} from "antd";
+import { Tooltip } from "antd";
 
 export interface InfoTableRowBase {
     label: string;
-    labelTooltip?: string | (() => React.ReactNode)
+    labelTooltip?: string | (() => React.ReactNode);
 }
 
 export interface InfoTableStringRow extends InfoTableRowBase {
@@ -12,7 +12,7 @@ export interface InfoTableStringRow extends InfoTableRowBase {
 }
 
 export interface InfoTableRenderRow extends InfoTableRowBase {
-    render: () => React.ReactNode
+    render: () => React.ReactNode;
 }
 
 export type InfoTableRow = InfoTableStringRow | InfoTableRenderRow;
@@ -43,9 +43,9 @@ export default class InfoTable extends React.Component<InfoTableProps, InfoTable
     renderLabel(row: InfoTableRow) {
         if (row.labelTooltip) {
             if (typeof row.labelTooltip === 'string') {
-                return <Tooltip title={row.labelTooltip}>{row.label}</Tooltip>
+                return <Tooltip title={row.labelTooltip}>{row.label}</Tooltip>;
             } else {
-                return <Tooltip title={row.labelTooltip()}>{row.label}</Tooltip>
+                return <Tooltip title={row.labelTooltip()}>{row.label}</Tooltip>;
             }
         } else {
             return row.label;
@@ -74,7 +74,9 @@ export default class InfoTable extends React.Component<InfoTableProps, InfoTable
             }
         })();
         return <table style={tableStyle}>
-            {this.renderRows()}
-        </table>
+            <tbody>
+                {this.renderRows()}
+            </tbody>
+        </table>;
     }
 }

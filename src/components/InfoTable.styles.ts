@@ -5,7 +5,7 @@ export interface InfoTableStyles {
     BorderedTable: React.CSSProperties,
     Row: React.CSSProperties,
     LabelCol: React.CSSProperties,
-    ValueCol: React.CSSProperties
+    ValueCol: React.CSSProperties;
 }
 
 const styles: InfoTableStyles = {
@@ -17,7 +17,8 @@ const styles: InfoTableStyles = {
     LabelCol: {
         color: 'rgba(175, 175, 175, 1)',
         padding: '4px',
-        verticalAlign: 'top'
+        verticalAlign: 'top',
+        textAlign: 'left'
     },
     ValueCol: {
         padding: '4px'

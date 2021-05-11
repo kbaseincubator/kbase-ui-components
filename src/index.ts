@@ -17,4 +17,6 @@ export { default as ErrorBoundary } from "./components/ErrorBoundary";
 export { default as InfoTable } from "./components/InfoTable";
 export { default as Section } from "./components/Section";
 export { default as SubSection } from "./components/SubSection";
+export { default as ErrorView } from "./components/ErrorView";
+
 

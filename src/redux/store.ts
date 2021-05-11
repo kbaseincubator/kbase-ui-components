@@ -2,8 +2,9 @@ import { AppStoreState, makeIntegrationStoreInitialState } from './integration/s
 import { AuthStoreState, makeAuthStoreInitialState } from './auth/store';
 import { DevelopStoreState, makeDevelopStore } from './develop/store';
 import { makeRootStoreInitialState, RootStoreState } from './root/store';
+import { JSONObject } from '@kbase/ui-lib/lib/json';
 
-export interface BaseStoreState extends RootStoreState, AppStoreState, AuthStoreState, DevelopStoreState {}
+export interface BaseStoreState extends RootStoreState, AppStoreState, AuthStoreState, DevelopStoreState { }
 
 export function makeBaseStoreState(): BaseStoreState {
     const rootStore = makeRootStoreInitialState();
@@ -21,6 +22,7 @@ export function makeBaseStoreState(): BaseStoreState {
 export interface AppError {
     code: string;
     message: string;
+    info?: JSONObject;
     generatedAt?: Date;
     trace?: Array<string>;
     errors?: Array<AppError>;

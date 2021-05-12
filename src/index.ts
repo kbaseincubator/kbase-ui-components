@@ -18,5 +18,4 @@ export { default as InfoTable } from "./components/InfoTable";
 export { default as Section } from "./components/Section";
 export { default as SubSection } from "./components/SubSection";
 export { default as ErrorView } from "./components/ErrorView";
-
-
+export { default as NotFound } from "./components/NotFound";

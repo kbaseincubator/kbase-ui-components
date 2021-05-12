@@ -1,10 +1,9 @@
 import React from 'react';
-// import {UIError} from "../types/error";
-import { Alert, Collapse } from 'antd';
-import { CaretRightOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
+import { Collapse, Result } from 'antd';
+import { BugTwoTone, CaretRightOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import { isJSONArray, isJSONObject, JSONValue } from '@kbase/ui-lib/lib/json';
-import { AppError } from '../redux/store';
-import InfoTable from './InfoTable';
+import { AppError } from '../../redux/store';
+import InfoTable from '../InfoTable';
 
 
 export interface ErrorViewProps {
@@ -17,7 +16,6 @@ interface ErrorViewState {
 }
 
 export default class ErrorView extends React.Component<ErrorViewProps, ErrorViewState> {
-
     renderJSON() {
         if (!('info' in this.props.error) || typeof this.props.error.info === 'undefined') {
             return;
@@ -93,7 +91,6 @@ export default class ErrorView extends React.Component<ErrorViewProps, ErrorView
     }
 
     renderBody() {
-
         const table = [
             {
                 label: 'Code',
@@ -101,10 +98,6 @@ export default class ErrorView extends React.Component<ErrorViewProps, ErrorView
             }];
 
         return <div>
-            <p style={{ marginTop: '10px' }}>
-                {this.props.error.message}
-            </p>
-
             <InfoTable table={table} />
 
             {this.renderDetail()}
@@ -112,8 +105,15 @@ export default class ErrorView extends React.Component<ErrorViewProps, ErrorView
     }
 
     render() {
-        return (
-            <Alert type="error" message={this.renderTitle()} description={this.renderBody()}></Alert>
-        );
+        return <Result
+            status="error"
+            title={this.props.title || 'Error'}
+            icon={<BugTwoTone twoToneColor="red" />}
+            subTitle={this.props.error.message}
+        >
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+                {this.renderBody()}
+            </div>
+        </Result>;
     }
 }

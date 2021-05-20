@@ -13,7 +13,6 @@ const styles: SectionStyles = {
         "flex": "1 1 0px",
         "display": "flex",
         "flexDirection": "column",
-        "margin": "20px 0 6px 0",
         "minHeight": "0"
     },
     Header: {

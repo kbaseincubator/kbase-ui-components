@@ -30,8 +30,15 @@ export default class AuthGate extends React.Component<AuthGateProps, AuthGateSta
     }
 
     renderUnauthenticated() {
-        const message = 'Not authenticated - authentication required';
-        return <Alert type="error" message={message} style={{ width: '70%', margin: 'auto' }} />;
+        if (this.props.required) {
+            const message = 'Not authenticated - authentication required';
+            return <Alert type="error" message={message} style={{ width: '70%', margin: 'auto' }} />;
+        }
+        return this.renderKids();
+    }
+
+    renderKids() {
+        return <React.Fragment>{this.props.children}</React.Fragment>;
     }
 
     renderError(authentication: AuthenticationError) {
@@ -49,7 +56,7 @@ export default class AuthGate extends React.Component<AuthGateProps, AuthGateSta
             case AuthenticationStatus.UNAUTHENTICATED:
                 return this.renderUnauthenticated();
             case AuthenticationStatus.AUTHENTICATED:
-                return <React.Fragment>{this.props.children}</React.Fragment>;
+                return this.renderKids();
         }
     }
 }

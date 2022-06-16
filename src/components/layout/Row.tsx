@@ -1,4 +1,4 @@
-import React from 'react';
+import {Component} from 'react';
 import { Testhook } from '../common';
 
 
@@ -14,7 +14,7 @@ interface RowState {
 
 }
 
-export default class Row extends React.Component<RowProps, RowState> {
+export default class Row extends Component<RowProps, RowState> {
 
     render() {
         const style: React.CSSProperties = {

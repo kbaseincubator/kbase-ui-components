@@ -1,4 +1,4 @@
-import React from "react";
+import {Component} from "react";
 import styles from './Section.styles';
 
 export interface SectionProps {
@@ -9,7 +9,7 @@ export interface SectionProps {
 interface SectionState {
 }
 
-export default class Section extends React.Component<SectionProps, SectionState> {
+export default class Section extends Component<SectionProps, SectionState> {
     renderToolbar() {
         if (!this.props.renderToolbar) {
             return;

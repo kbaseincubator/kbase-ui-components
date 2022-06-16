@@ -1,5 +1,5 @@
 import Alert from 'antd/lib/alert';
-import React from 'react';
+import {Component} from 'react';
 import { getParamsFromIFrame } from '../../lib/IFrameIntegration';
 import { IFrameParams } from '../../lib/IFrameSupport';
 import { RootState } from '../../redux/root/store';
@@ -27,7 +27,7 @@ function rootStateToLabel(state: RootState) {
 
 interface RootComponentState { }
 
-export default class Root extends React.Component<RootProps, RootComponentState> {
+export default class Root extends Component<RootProps, RootComponentState> {
     iframeParams: IFrameParams | null;
     constructor(props: RootProps) {
         super(props);
@@ -49,7 +49,7 @@ export default class Root extends React.Component<RootProps, RootComponentState>
             case RootState.NONE:
                 return <Loading />;
             case RootState.HOSTED:
-                return <React.Fragment>{this.props.children}</React.Fragment>;
+                return <>{this.props.children}</>;
             case RootState.DEVELOP:
                 return <Develop>{this.props.children}</Develop>;
             case RootState.ERROR:

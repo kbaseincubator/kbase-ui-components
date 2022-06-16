@@ -1,12 +1,12 @@
 import { FrownTwoTone } from '@ant-design/icons';
 import { Result } from 'antd';
-import React from 'react';
+import {Component} from 'react';
 import InfoTable from '../InfoTable';
 
 export type NotFoundProps = {
     path: string;
 };
-export default class NotFound extends React.Component<NotFoundProps, {}> {
+export default class NotFound extends Component<NotFoundProps, {}> {
     render() {
         const extraTable = [{
             label: 'Path',

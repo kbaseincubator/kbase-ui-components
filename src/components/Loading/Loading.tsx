@@ -1,4 +1,4 @@
-import React from 'react';
+import {Component} from 'react';
 import { Spin } from 'antd';
 import './Loading.css';
 
@@ -8,7 +8,7 @@ export interface Props {
 
 interface State { }
 
-export default class Loading extends React.Component<Props, State> {
+export default class Loading extends Component<Props, State> {
     renderMessage() {
         if (!this.props.message) {
             return;

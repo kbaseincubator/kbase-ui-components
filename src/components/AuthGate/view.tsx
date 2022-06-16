@@ -1,4 +1,4 @@
-import React from 'react';
+import {Component} from 'react';
 
 import './style.css';
 import { Alert, Spin } from 'antd';
@@ -13,7 +13,7 @@ export type AuthGateProps = React.PropsWithChildren<{
 
 interface AuthGateState { }
 
-export default class AuthGate extends React.Component<AuthGateProps, AuthGateState> {
+export default class AuthGate extends Component<AuthGateProps, AuthGateState> {
     required: boolean;
 
     constructor(props: AuthGateProps) {
@@ -38,7 +38,7 @@ export default class AuthGate extends React.Component<AuthGateProps, AuthGateSta
     }
 
     renderKids() {
-        return <React.Fragment>{this.props.children}</React.Fragment>;
+        return <>{this.props.children}</>;
     }
 
     renderError(authentication: AuthenticationError) {

@@ -1,7 +1,7 @@
 /**
  * A base react component wraps the kbase-ui integration components.
  */
-import * as React from 'react';
+import {Component} from 'react';
 import './AppBase.css';
 import '../style/common.css';
 import Integration from './Integration';
@@ -13,7 +13,7 @@ interface AppState {
     clicks: number;
 }
 
-export default class AppBase extends React.Component<AppProps, AppState> {
+export default class AppBase extends Component<AppProps, AppState> {
     hosted: boolean;
     constructor(props: AppProps) {
         super(props);

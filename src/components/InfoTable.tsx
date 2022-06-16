@@ -1,4 +1,4 @@
-import React from 'react';
+import {Component} from 'react';
 import styles from './InfoTable.styles';
 import { Tooltip } from "antd";
 
@@ -27,7 +27,7 @@ interface InfoTableState {
 
 }
 
-export default class InfoTable extends React.Component<InfoTableProps, InfoTableState> {
+export default class InfoTable extends Component<InfoTableProps, InfoTableState> {
     constructor(props: InfoTableProps) {
         super(props);
     }

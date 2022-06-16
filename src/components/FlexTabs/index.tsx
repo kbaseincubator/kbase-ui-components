@@ -1,4 +1,4 @@
-import React from 'react';
+import {Component} from 'react';
 import { Button } from 'antd';
 import './style.css';
 
@@ -16,7 +16,7 @@ interface FlexTabsState {
     selectedTabIndex: number;
 }
 
-export default class FlexTabs extends React.Component<FlexTabsProps, FlexTabsState> {
+export default class FlexTabs extends Component<FlexTabsProps, FlexTabsState> {
     constructor(props: FlexTabsProps) {
         super(props);
         this.state = {

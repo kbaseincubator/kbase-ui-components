@@ -1,4 +1,4 @@
-import React from "react";
+import {Component} from "react";
 import styles from "./SubSection.styles";
 
 export interface SubSectionProps {
@@ -10,7 +10,7 @@ interface SubSectionState {
 
 }
 
-export default class SubSection extends React.Component<SubSectionProps, SubSectionState> {
+export default class SubSection extends Component<SubSectionProps, SubSectionState> {
     renderToolbar() {
         if (!this.props.renderToolbar) {
             return;

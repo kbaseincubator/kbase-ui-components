@@ -1,4 +1,4 @@
-import React from 'react';
+import {Component} from 'react';
 import { Collapse, Result } from 'antd';
 import { BugTwoTone, CaretRightOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import { isJSONArray, isJSONObject, JSONValue } from '@kbase/ui-lib/lib/json';
@@ -15,7 +15,7 @@ interface ErrorViewState {
 
 }
 
-export default class ErrorView extends React.Component<ErrorViewProps, ErrorViewState> {
+export default class ErrorView extends Component<ErrorViewProps, ErrorViewState> {
     renderJSON() {
         if (!('info' in this.props.error) || typeof this.props.error.info === 'undefined') {
             return;

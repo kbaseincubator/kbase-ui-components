@@ -1,4 +1,4 @@
-import React from 'react';
+import {Component, createRef} from 'react';
 import { Button, Alert, Spin, Tag } from 'antd';
 import { LoginOutlined, LogoutOutlined } from '@ant-design/icons';
 import { Authentication, AuthenticationStatus } from '../../redux/auth/store';
@@ -36,13 +36,13 @@ export interface DevelopProps {
 
 interface DevelopComponentState { }
 
-export default class Develop extends React.Component<DevelopProps, DevelopComponentState> {
+export default class Develop extends Component<DevelopProps, DevelopComponentState> {
     tokenRef: React.RefObject<HTMLInputElement>;
 
     constructor(props: DevelopProps) {
         super(props);
 
-        this.tokenRef = React.createRef();
+        this.tokenRef = createRef();
     }
 
     // React Lifecycle

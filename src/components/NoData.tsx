@@ -1,4 +1,4 @@
-import React from 'react';
+import {Component} from 'react';
 
 const DEFAULT_MESSAGE = '∅';
 
@@ -6,7 +6,7 @@ export interface NoDataProps {
     message?: string;
 }
 
-export default class NoData extends React.Component<NoDataProps, {}> {
+export default class NoData extends Component<NoDataProps, {}> {
     renderMessage() {
         if (this.props.message) {
             return this.props.message;

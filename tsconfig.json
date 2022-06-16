@@ -10,7 +10,7 @@
         "removeComments": true,
         "declaration": true,
         "sourceMap": true,
-        "jsx": "react",
+        "jsx": "react-jsx",
         "typeRoots": [
             "index.d.ts",
             "node_modules/@types"

@@ -1,6 +1,6 @@
 {
   "name": "@kbase/ui-components",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "A typescript library to provide react components for integration into kbase-ui and friends",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -47,7 +47,7 @@
     "es-cookie": "^1.2.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-redux": "^7.0.3",
+    "react-redux": "^8.0.2",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "uuid": "^8.1.0"

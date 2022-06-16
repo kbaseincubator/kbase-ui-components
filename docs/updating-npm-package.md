@@ -17,11 +17,11 @@
 2. Make sure it is built
 
     ```bash
-    yarn build
+    npm run build
     ```
 
 3. publish the package:
 
     ```bash
-    yarn publish
+    npm publish
     ```

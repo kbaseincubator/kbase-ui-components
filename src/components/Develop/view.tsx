@@ -1,8 +1,8 @@
-import {Component, createRef} from 'react';
-import { Button, Alert, Spin, Tag } from 'antd';
 import { LoginOutlined, LogoutOutlined } from '@ant-design/icons';
+import { Alert, Button, Spin, Tag } from 'antd';
+import { Component, createRef, PropsWithChildren } from 'react';
 import { Authentication, AuthenticationStatus } from '../../redux/auth/store';
-import {DevelopState, DevelopStateError, DevelopStateReady, DevelopStatus} from '../../redux/develop/store';
+import { DevelopState, DevelopStateError, DevelopStateReady, DevelopStatus } from '../../redux/develop/store';
 import './style.css';
 
 function authStateLabel(status: AuthenticationStatus) {
@@ -22,7 +22,7 @@ function authStateLabel(status: AuthenticationStatus) {
     }
 }
 
-export interface DevelopProps {
+export interface DevelopProps extends PropsWithChildren {
     authentication: Authentication;
     develop: DevelopState;
     title: string;
@@ -137,7 +137,7 @@ export default class Develop extends Component<DevelopProps, DevelopComponentSta
             pluginChannelId: develop.channels.pluginChannelId
         };
         const paramsString = JSON.stringify(params);
-        return  <div data-params={encodeURIComponent(paramsString)} data-plugin-host="true" className="Develop">
+        return <div data-params={encodeURIComponent(paramsString)} data-plugin-host="true" className="Develop">
             {this.props.children}
         </div>;
     }

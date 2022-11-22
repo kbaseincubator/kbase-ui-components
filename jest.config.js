@@ -5,5 +5,6 @@ module.exports = {
         '.+\\.(css)$': 'jest-transform-css'
     },
     collectCoverageFrom: ['src/**/*.{ts,tsx}'],
-    setupFilesAfterEnv: ['@testing-library/jest-dom/extend-expect']
+    setupFilesAfterEnv: ['@testing-library/jest-dom/extend-expect'],
+    testEnvironment: 'jsdom'
 };

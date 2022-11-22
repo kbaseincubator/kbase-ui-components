@@ -1,10 +1,10 @@
-import * as React from 'react';
+import { LogoutOutlined, SaveOutlined } from '@ant-design/icons';
 import Button from 'antd/lib/button';
+import * as React from 'react';
 import { Authentication, AuthenticationStatus } from '../../redux/auth/store';
-import { SaveOutlined, LogoutOutlined } from '@ant-design/icons';
 import './style.css';
 
-export interface AuthIntegrationProps {
+export interface AuthIntegrationProps extends React.PropsWithChildren {
     authentication: Authentication;
     hosted: boolean;
     checkAuth: () => void;

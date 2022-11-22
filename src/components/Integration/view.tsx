@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { WindowChannel } from '@kbase/ui-lib';
 import './style.css';
 
 // This is the "loader" component, which really just waits until the app is ready
@@ -9,7 +8,7 @@ import './style.css';
 // TODO: auth is separate, but we maybe we should merge them together...
 
 
-export interface KBaseIntegrationProps {
+export interface KBaseIntegrationProps extends React.PropsWithChildren {
     title: string;
 }
 

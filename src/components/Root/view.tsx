@@ -1,12 +1,12 @@
 import Alert from 'antd/lib/alert';
-import {Component} from 'react';
+import { Component, PropsWithChildren } from 'react';
 import { getParamsFromIFrame } from '../../lib/IFrameIntegration';
 import { IFrameParams } from '../../lib/IFrameSupport';
 import { RootState } from '../../redux/root/store';
 import Develop from '../Develop';
 import Loading from '../Loading/Loading';
 
-export interface RootProps {
+export interface RootProps extends PropsWithChildren {
     rootState: RootState;
     startHostedEnvironment: (params: IFrameParams) => void;
     startDevelopmentEnvironment: () => void;

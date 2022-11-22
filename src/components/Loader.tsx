@@ -2,14 +2,14 @@ import * as React from 'react';
 import { AppState } from '../redux/integration/store';
 import { AppError } from '../redux/store';
 
-export interface LoaderProps {
+export interface LoaderProps extends React.PropsWithChildren {
     status: AppState;
     message?: string;
     error?: AppError;
     onLoad: () => void;
 }
 
-interface LoaderState {}
+interface LoaderState { }
 
 export default class Loader extends React.Component<LoaderProps, LoaderState> {
     componentDidMount() {

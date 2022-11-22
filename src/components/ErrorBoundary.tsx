@@ -1,7 +1,7 @@
-import {Component} from 'react';
 import { Alert } from 'antd';
+import { Component, PropsWithChildren } from 'react';
 
-export interface ErrorBoundaryProps {
+export interface ErrorBoundaryProps extends PropsWithChildren {
 }
 
 interface ErrorInfo {

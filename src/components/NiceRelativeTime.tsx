@@ -1,6 +1,8 @@
+import { niceRelativeTime } from '@kbase/ui-lib/lib/time';
 import * as React from 'react';
-import { niceRelativeTime } from '@kbase/ui-lib';
+
 import { Tooltip } from 'antd';
+// import { niceRelativeTime } from '../lib/time';
 
 export interface NiceRelativeTimeProps {
     time: Date;

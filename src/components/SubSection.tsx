@@ -1,7 +1,7 @@
-import {Component} from "react";
+import { Component, PropsWithChildren } from "react";
 import styles from "./SubSection.styles";
 
-export interface SubSectionProps {
+export interface SubSectionProps extends PropsWithChildren {
     title: string;
     renderToolbar?: () => JSX.Element;
 }

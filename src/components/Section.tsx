@@ -1,7 +1,7 @@
-import {Component} from "react";
+import { Component, PropsWithChildren } from "react";
 import styles from './Section.styles';
 
-export interface SectionProps {
+export interface SectionProps extends PropsWithChildren {
     title: string;
     renderToolbar?: () => JSX.Element;
 }

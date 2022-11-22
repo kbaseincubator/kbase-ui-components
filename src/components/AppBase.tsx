@@ -1,13 +1,13 @@
 /**
  * A base react component wraps the kbase-ui integration components.
  */
-import {Component} from 'react';
-import './AppBase.css';
+import { Component, PropsWithChildren } from 'react';
 import '../style/common.css';
+import './AppBase.css';
 import Integration from './Integration';
 import Root from './Root';
 
-export interface AppProps { }
+export interface AppProps extends PropsWithChildren { }
 
 interface AppState {
     clicks: number;

@@ -1,7 +1,7 @@
-import {Component} from 'react';
+import { Component, PropsWithChildren } from 'react';
 import { Testhook } from '../common';
 
-export interface ColProps {
+export interface ColProps extends PropsWithChildren {
     scrollable?: boolean;
     testhook?: Testhook;
     scrolling?: boolean;

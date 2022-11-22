@@ -1,9 +1,9 @@
-import {Component} from 'react';
+import { Component, PropsWithChildren } from 'react';
 import { Testhook } from '../common';
 
 
 
-export interface RowProps {
+export interface RowProps extends PropsWithChildren {
     fullheight?: boolean;
     scrollable?: boolean;
     testhook?: Testhook;

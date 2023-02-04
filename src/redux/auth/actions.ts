@@ -1,8 +1,8 @@
+import AuthClient from '@kbase/ui-lib/lib/comm/coreServices/Auth';
+import Cookies from 'js-cookie';
 import { Action } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
-import * as Cookies from 'es-cookie';
 import { AppError, BaseStoreState } from '../store';
-import AuthClient from '@kbase/ui-lib/lib/comm/coreServices/Auth';
 
 export enum AuthActionType {
     AUTH_CHECK = '@kbase-ui-components:auth check',

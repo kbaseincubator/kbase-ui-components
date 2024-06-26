@@ -7,11 +7,11 @@ import { appStart } from '../../redux/integration/actions';
 import Loader, { LoaderProps } from '../Loader';
 import Container from './container';
 
-class Wrapped extends React.Component<LoaderProps, object> {
+class LoadWrapper extends React.Component<LoaderProps, object> {
     render() {
         return (
             <Loader status={this.props.status} error={this.props.error} onLoad={this.props.onLoad}>
-                <Container>{this.props.children}</Container>
+                {this.props.children}
             </Loader>
         );
     }
@@ -25,7 +25,7 @@ class Wrapped extends React.Component<LoaderProps, object> {
 
 // Connect to the Redux Store
 
-export interface OwnProps {}
+export interface OwnProps { }
 
 interface StateProps {
     status: AppState;
@@ -55,4 +55,4 @@ export function mapDispatchToProps(dispatch: Dispatch<Action>): DispatchProps {
 export default connect<StateProps, DispatchProps, OwnProps, AppStoreState>(
     mapStateToProps,
     mapDispatchToProps
-)(Wrapped);
+)(Loader);

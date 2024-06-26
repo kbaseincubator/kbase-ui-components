@@ -1,22 +1,22 @@
-import React from 'react';
+import {Component} from 'react';
 import { Button } from 'antd';
 import './style.css';
 
 export interface FlexTab {
     tab: string;
     title: JSX.Element | string;
-    component: JSX.Element
+    component: JSX.Element;
 }
 
 export interface FlexTabsProps {
-    tabs: Array<FlexTab>
+    tabs: Array<FlexTab>;
 }
 
 interface FlexTabsState {
     selectedTabIndex: number;
 }
 
-export default class FlexTabs extends React.Component<FlexTabsProps, FlexTabsState> {
+export default class FlexTabs extends Component<FlexTabsProps, FlexTabsState> {
     constructor(props: FlexTabsProps) {
         super(props);
         this.state = {
@@ -25,25 +25,25 @@ export default class FlexTabs extends React.Component<FlexTabsProps, FlexTabsSta
     }
 
     selectTab(tabIndex: number) {
-        this.setState({ selectedTabIndex: tabIndex })
+        this.setState({ selectedTabIndex: tabIndex });
     }
 
     renderTabs() {
         return this.props.tabs.map((tab, index) => {
-            const classNames = ['FlexTabs-tab']
+            const classNames = ['FlexTabs-tab'];
             if (index === this.state.selectedTabIndex) {
                 classNames.push('FlexTabs-tab-active');
             }
             return (
                 <span key={String(index)} className={classNames.join(' ')}>
-                    <Button type="link" onClick={() => { this.selectTab(index) }}>{tab.title}</Button>
+                    <Button type="link" onClick={() => { this.selectTab(index); }}>{tab.title}</Button>
                 </span>
-            )
-        })
+            );
+        });
     }
 
     renderTabBody() {
-        return this.props.tabs[this.state.selectedTabIndex].component
+        return this.props.tabs[this.state.selectedTabIndex].component;
     }
 
     render() {
@@ -54,6 +54,6 @@ export default class FlexTabs extends React.Component<FlexTabsProps, FlexTabsSta
             <div className="FlexTabs-body">
                 {this.renderTabBody()}
             </div>
-        </div>
+        </div>;
     }
 }

@@ -61,8 +61,20 @@ export function getChannelID() {
     if (!hostNode) {
         return null;
     }
-    if (!hostNode.hasAttribute('data-channel')) {
+    if (!hostNode.hasAttribute('data-plugin-channel-id')) {
         return null;
     }
-    return hostNode.getAttribute('data-channel');
+    return hostNode.getAttribute('data-plugin-channel-id');
+}
+
+export function getHostChannelID() {
+    const hostNode = findHostElement();
+
+    if (!hostNode) {
+        return null;
+    }
+    if (!hostNode.hasAttribute('data-host-channel-id')) {
+        return null;
+    }
+    return hostNode.getAttribute('data-host-channel-id');
 }

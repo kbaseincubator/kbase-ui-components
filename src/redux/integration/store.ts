@@ -11,9 +11,11 @@ export enum AppState {
 export type Params<K extends string> = { [key in K]: string };
 export interface Navigation {
     view: string;
-    params: Params<string>
+    params: Params<string>;
 }
-
+export interface DynamicServiceConfig {
+    version: string;
+}
 export interface AppConfig {
     baseUrl: string;
     services: {
@@ -24,6 +26,15 @@ export interface AppConfig {
             url: string;
         };
         Workspace: {
+            url: string;
+        };
+        SampleService: {
+            url: string;
+        };
+        SearchAPI2: {
+            url: string;
+        };
+        SearchAPI2Legacy: {
             url: string;
         };
         ServiceWizard: {
@@ -42,8 +53,13 @@ export interface AppConfig {
             url: string;
         };
         RelationEngine: {
-            url: string
-        }
+            url: string;
+        };
+    };
+    dynamicServices: {
+        JobBrowserBFF: DynamicServiceConfig;
+        OntologyAPI: DynamicServiceConfig;
+        TaxonomyAPI: DynamicServiceConfig;
     };
     defaultPath: string;
 }
@@ -53,7 +69,7 @@ export interface AppRuntime {
     hostChannelId: string | null;
     devMode: boolean | null;
     title: string;
-    navigation: Navigation
+    navigation: Navigation;
 }
 
 export interface AppStoreState {
@@ -81,6 +97,15 @@ export function makeIntegrationStoreInitialState(): AppStoreState {
                     Workspace: {
                         url: ''
                     },
+                    SampleService: {
+                        url: ''
+                    },
+                    SearchAPI2: {
+                        url: ''
+                    },
+                    SearchAPI2Legacy: {
+                        url: ''
+                    },
                     ServiceWizard: {
                         url: ''
                     },
@@ -100,6 +125,17 @@ export function makeIntegrationStoreInitialState(): AppStoreState {
                         url: ''
                     }
                 },
+                dynamicServices: {
+                    JobBrowserBFF: {
+                        version: ''
+                    },
+                    OntologyAPI: {
+                        version: ''
+                    },
+                    TaxonomyAPI: {
+                        version: ''
+                    }
+                },
                 defaultPath: ''
             },
             runtime: {
@@ -112,7 +148,7 @@ export function makeIntegrationStoreInitialState(): AppStoreState {
                     params: {}
                 }
             },
-            
+
         }
     };
 }

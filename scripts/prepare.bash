@@ -1,4 +1,3 @@
-rm -rf ./lib
 tsc
 copyfiles -u 1  "./build/**/*" "./lib/"
 copyfiles -u 1  "./src/**/*.css" "./lib/"

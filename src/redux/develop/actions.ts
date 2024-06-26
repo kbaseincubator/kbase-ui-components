@@ -1,16 +1,18 @@
 import { Action } from 'redux';
-import { Channel } from '@kbase/ui-lib';
+import { WindowChannel } from '@kbase/ui-lib';
 import { BaseStoreState } from '../store';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppConfig, Params } from '../integration/store';
-import { Auth, AuthState } from '@kbase/ui-lib';
+import { Auth, AuthenticationStatus } from '@kbase/ui-lib';
+import { WindowChannelInit } from "@kbase/ui-lib/lib/windowChannel";
+import { v4 as uuidv4 } from 'uuid';
 
 export enum DevelopActionType {
-    DEVELOP_SET_TITLE = 'develop/set/title',
-    DEVELOP_START = 'develop/start',
-    DEVELOP_LOAD_SUCCESS = 'develop/load/success',
-    DEVELOP_SET_VIEW = 'develop/set/view',
-    DEVELOP_SET_PARAMS = 'develop/set/params'
+    DEVELOP_SET_TITLE = '@kbase-ui-components:develop_set_title',
+    DEVELOP_START = '@kbase-ui-components:develop_start',
+    DEVELOP_LOAD_SUCCESS = '@kbase-ui-components:develop_load_success',
+    DEVELOP_SET_VIEW = '@kbase-ui-components:develop_set_view',
+    DEVELOP_SET_PARAMS = '@kbase-ui-components:develop_set_params'
 }
 
 // Action Types
@@ -22,12 +24,12 @@ export interface DevelopSetTitle extends Action<DevelopActionType.DEVELOP_SET_TI
 
 export interface DevelopStart extends Action<DevelopActionType.DEVELOP_START> {
     type: DevelopActionType.DEVELOP_START;
-    window: Window;
 }
 
 export interface DevelopLoadSuccess extends Action<DevelopActionType.DEVELOP_LOAD_SUCCESS> {
     type: DevelopActionType.DEVELOP_LOAD_SUCCESS;
     hostChannelId: string;
+    pluginChannelId: string;
 }
 
 export interface DevelopSetView extends Action<DevelopActionType.DEVELOP_SET_VIEW> {
@@ -50,10 +52,11 @@ export function setTitle(title: string): DevelopSetTitle {
     };
 }
 
-export function loadSuccess(hostChannelId: string): DevelopLoadSuccess {
+export function loadSuccess(hostChannelId: string, pluginChannelId: string): DevelopLoadSuccess {
     return {
         type: DevelopActionType.DEVELOP_LOAD_SUCCESS,
-        hostChannelId
+        hostChannelId,
+        pluginChannelId
     };
 }
 
@@ -71,7 +74,7 @@ export function setParams(params: Params<string>): DevelopSetParams {
     };
 }
 
-let channel: Channel;
+let channel: WindowChannel;
 
 // dev config uses current host
 const devOrigin = document.location.origin;
@@ -88,6 +91,15 @@ const devConfig: AppConfig = {
         },
         Workspace: {
             url: `${devOrigin}/services/ws`
+        },
+        SampleService: {
+            url: `${devOrigin}/services/sampleservice`
+        },
+        SearchAPI2: {
+            url: `${devOrigin}/services/searchapi2/rpc`
+        },
+        SearchAPI2Legacy: {
+            url: `${devOrigin}/services/searchapi2/legacy`
         },
         ServiceWizard: {
             url: `${devOrigin}/services/service_wizard`
@@ -107,10 +119,27 @@ const devConfig: AppConfig = {
         RelationEngine: {
             url: `${devOrigin}/services/relation_engine_api`
         }
+    },
+    dynamicServices: {
+        JobBrowserBFF: {
+            version: 'dev'
+        },
+        OntologyAPI: {
+            version: 'dev'
+        },
+        TaxonomyAPI: {
+            version: 'dev'
+        }
     }
 };
 
-function setupAndStartChannel(channel: Channel, dispatch: ThunkDispatch<BaseStoreState, void, Action>) {
+function setupAndStartChannel(dispatch: ThunkDispatch<BaseStoreState, void, Action>): WindowChannel {
+    // The following simulates what a host environment would do.
+
+    // Create a host channel.
+    const chan = new WindowChannelInit()
+    channel = chan.makeChannel(uuidv4())
+
     channel.on('ready', async (params) => {
         channel.setPartner(params.channelId);
 
@@ -118,13 +147,11 @@ function setupAndStartChannel(channel: Channel, dispatch: ThunkDispatch<BaseStor
         const auth = new Auth(devConfig.services.Auth.url);
         const authInfo = await auth.checkAuth();
 
-        if (authInfo.status === AuthState.AUTHENTICATED) {
+        if (authInfo.status === AuthenticationStatus.AUTHENTICATED) {
+            const {token, username, realname, roles} = authInfo.userAuthentication;
             channel.send('start', {
-                authorization: {
-                    token: authInfo.userAuthorization!.token,
-                    username: authInfo.userAuthorization!.username,
-                    realname: authInfo.userAuthorization!.realname,
-                    roles: authInfo.userAuthorization!.roles
+                authentication: {
+                    token, username, realname, roles
                 },
                 config: devConfig,
                 // TODO: refactor this to reflect the actual view and params in the dev tool.
@@ -134,7 +161,7 @@ function setupAndStartChannel(channel: Channel, dispatch: ThunkDispatch<BaseStor
             });
         } else {
             channel.send('start', {
-                authorization: null,
+                authentication: null,
                 config: devConfig
             });
         }
@@ -143,12 +170,10 @@ function setupAndStartChannel(channel: Channel, dispatch: ThunkDispatch<BaseStor
     channel.on('get-auth-status', async () => {
         const auth = new Auth(devConfig.services.Auth.url);
         const authInfo = await auth.checkAuth();
-        if (authInfo.status === AuthState.AUTHENTICATED) {
+        if (authInfo.status === AuthenticationStatus.AUTHENTICATED) {
+            const {token, username, realname, roles} = authInfo.userAuthentication;
             channel.send('auth-status', {
-                token: authInfo.userAuthorization!.token,
-                username: authInfo.userAuthorization!.username,
-                realname: authInfo.userAuthorization!.realname,
-                roles: authInfo.userAuthorization!.roles
+                token, username, realname, roles
             });
         } else {
             channel.send('auth-status', {
@@ -172,36 +197,7 @@ function setupAndStartChannel(channel: Channel, dispatch: ThunkDispatch<BaseStor
 
     channel.on('open-window', ({ url }) => {
         window.location.href = url;
-        // window.open(url, name);
     });
-
-    // channel.on('set-plugin-params', ({ pluginParams }) => {
-    //     if (Object.keys(pluginParams) === 0) {
-    //         window.location.search = '';
-    //         return;
-    //     }
-    //     const query = {};
-    //     if (pluginParams.query) {
-    //         query.query = pluginParams.query;
-    //     }
-    //     if (pluginParams.dataPrivacy && pluginParams.dataPrivacy.length > 0) {
-    //         query.dataPrivacy = pluginParams.dataPrivacy.join(',');
-    //     }
-    //     if (pluginParams.workspaceTypes && pluginParams.workspaceTypes.length > 0) {
-    //         query.workspaceTypes = pluginParams.workspaceTypes.join(',');
-    //     }
-    //     if (pluginParams.dataTypes) {
-    //         query.dataTypes = pluginParams.dataTypes.join(',');
-    //     }
-
-    //     // prepare the params.
-    //     const queryString = httpUtils.encodeQuery(query);
-
-    //     const currentLocation = window.location.toString();
-    //     const currentURL = new URL(currentLocation);
-    //     currentURL.search = queryString;
-    //     history.replaceState(null, '', currentURL.toString());
-    // });
 
     // this.channel.on('send-instrumentation', (instrumentation) => {
     // });
@@ -220,24 +216,21 @@ function setupAndStartChannel(channel: Channel, dispatch: ThunkDispatch<BaseStor
     });
 
     channel.start();
-}
 
-// export function start(channelId: string): DevelopStart {
-//     return {
-//         type: DevelopActionType.DEVELOP_START,
-//         window
-//     };
-// }
+    return channel;
+}
 
 export function start(window: Window) {
     return async (dispatch: ThunkDispatch<BaseStoreState, void, Action>, getState: () => BaseStoreState) => {
-        // create channel
-        channel = new Channel({ debug: false });
+        dispatch({
+            type: DevelopActionType.DEVELOP_START
+        } as DevelopStart);
 
-        setupAndStartChannel(channel, dispatch);
+        // create channel
+        const channel = setupAndStartChannel(dispatch);
 
         // set channel id via action
-        dispatch(loadSuccess(channel.id));
+        dispatch(loadSuccess(channel.getId(), channel.getPartnerId()));
 
         // set up channel handlers, etc.
     };

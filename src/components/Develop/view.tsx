@@ -1,45 +1,48 @@
-import React from 'react';
+import { LoginOutlined, LogoutOutlined } from '@ant-design/icons';
+import { Alert, Button, Spin, Tag } from 'antd';
+import { Component, createRef, PropsWithChildren } from 'react';
+import { Authentication, AuthenticationStatus } from '../../redux/auth/store';
+import { DevelopState, DevelopStateError, DevelopStateReady, DevelopStatus } from '../../redux/develop/store';
 import './style.css';
-import { Button, Alert, Spin, Tag } from 'antd';
-import { Authorization, AuthState } from '../../redux/auth/store';
-import { DevelopStatus } from '../../redux/develop/store';
 
-function authStateLabel(status: AuthState) {
+function authStateLabel(status: AuthenticationStatus) {
     switch (status) {
-        case AuthState.NONE:
+        case AuthenticationStatus.NONE:
             return 'none';
-        case AuthState.CHECKING:
+        case AuthenticationStatus.CHECKING:
             return 'checking';
-        case AuthState.AUTHORIZED:
-            return 'authorized';
-        case AuthState.UNAUTHORIZED:
-            return 'unauthorized';
-        case AuthState.ERROR:
+        case AuthenticationStatus.AUTHENTICATED:
+            return 'authenticated';
+        case AuthenticationStatus.UNAUTHENTICATED:
+            return 'unauthenticated';
+        case AuthenticationStatus.ERROR:
             return 'error';
         default:
             return 'OTHER';
     }
 }
 
-export interface DevelopProps {
-    authorization: Authorization;
-    title?: string;
-    hostChannelId: string | null;
-    developStatus: DevelopStatus;
-    removeAuthorization: () => void;
-    addAuthorization: (token: string) => void;
+export interface DevelopProps extends PropsWithChildren {
+    authentication: Authentication;
+    develop: DevelopState;
+    title: string;
+    // hostChannelId: string | null;
+    // pluginChannelId: string | null;
+    // developStatus: DevelopStatus;
+    removeAuthentication: () => void;
+    addAuthentication: (token: string) => void;
     start: (window: Window) => void;
 }
 
-interface DevelopComponentState {}
+interface DevelopComponentState { }
 
-export default class Develop extends React.Component<DevelopProps, DevelopComponentState> {
+export default class Develop extends Component<DevelopProps, DevelopComponentState> {
     tokenRef: React.RefObject<HTMLInputElement>;
 
     constructor(props: DevelopProps) {
         super(props);
 
-        this.tokenRef = React.createRef();
+        this.tokenRef = createRef();
     }
 
     // React Lifecycle
@@ -57,11 +60,11 @@ export default class Develop extends React.Component<DevelopProps, DevelopCompon
         if (token.length === 0) {
             return;
         }
-        this.props.addAuthorization(token);
+        this.props.addAuthentication(token);
     }
 
     onLogoutClick() {
-        this.props.removeAuthorization();
+        this.props.removeAuthentication();
     }
 
     // DEV
@@ -69,11 +72,11 @@ export default class Develop extends React.Component<DevelopProps, DevelopCompon
     renderAuthForm() {
         return (
             <div className="Develop-auth-form">
-                <p>
-                    <b>Not Authenticated!</b> Enter a Login Token below.
-                </p>
+                <div>
+                    <b>Not Logged In!</b> Enter a Login Token below.
+                </div>
                 Token: <input ref={this.tokenRef} style={{ width: '30em' }} />
-                <Button icon="login" htmlType="submit" onClick={this.onLoginClick.bind(this)}>
+                <Button icon={<LoginOutlined />} htmlType="submit" onClick={this.onLoginClick.bind(this)}>
                     Login
                 </Button>
             </div>
@@ -81,84 +84,39 @@ export default class Develop extends React.Component<DevelopProps, DevelopCompon
     }
 
     renderAuthToolbar() {
-        if (!this.props.authorization.userAuthorization) {
+        if (this.props.authentication.status !== AuthenticationStatus.AUTHENTICATED) {
             return;
         }
         return (
             <div className="Develop-auth-toolbar">
                 Logged in as{' '}
                 <b>
-                    <span>{this.props.authorization.userAuthorization.realname}</span> (
-                    <span>{this.props.authorization.userAuthorization.username}</span>
+                    <span>{this.props.authentication.userAuthentication.realname}</span> (
+                    <span>{this.props.authentication.userAuthentication.username}</span>
                 </b>
                 ){' '}
-                <Button icon="logout" onClick={this.onLogoutClick.bind(this)}>
+                <Button icon={<LogoutOutlined />} onClick={this.onLogoutClick.bind(this)}>
                     Logout
                 </Button>
             </div>
         );
     }
 
-    // onLogoutClick() {
-    //     this.props.onRemoveAuthorization();
-    // }
-
-    // onLoginClick() {
-    //     if (this.tokenRef.current === null) {
-    //         return;
-    //     }
-    //     const token = this.tokenRef.current.value;
-    //     if (token.length === 0) {
-    //         return;
-    //     }
-    //     this.props.onAddAuthorization(token);
-    // }
-
-    // renderLoginToolbar() {
-    //     switch (this.props.authorization.status) {
-    //         case AuthState.NONE:
-    //         case AuthState.CHECKING:
-    //             return <div />;
-    //         case AuthState.AUTHORIZED:
-    //             return (
-    //                 <div className="Auth Auth-authorized scrollable-flex-column">
-    //                     {this.renderAuthToolbar()}
-    //                     {this.props.children}
-    //                 </div>
-    //             );
-    //         case AuthState.UNAUTHORIZED:
-    //             return (
-    //                 <div className="Auth Auth-unauthorized scrollable-flex-column">
-    //                     <p>Not authorized! Enter a user token below</p>
-    //                     {this.renderAuthForm()}
-    //                 </div>
-    //             );
-    //         case AuthState.ERROR:
-    //             return (
-    //                 <div className="Auth Auth-unauthorized scrollable-flex-column">
-    //                     <p>Error</p>
-    //                     {this.props.authorization.message}
-    //                 </div>
-    //             );
-    //         default:
-    //             return <div />;
-    //     }
-    // }
-
     renderAuth() {
-        switch (this.props.authorization.status) {
-            case AuthState.CHECKING:
-                return <div />;
-            case AuthState.AUTHORIZED:
-                return <div className="Auth Auth-authorized scrollable-flex-column">{this.renderAuthToolbar()}</div>;
-            case AuthState.NONE:
-            case AuthState.UNAUTHORIZED:
-                return <div className="Auth Auth-unauthorized scrollable-flex-column">{this.renderAuthForm()}</div>;
-            case AuthState.ERROR:
+        switch (this.props.authentication.status) {
+            case AuthenticationStatus.NONE:
+                return <div className="Auth Auth-unauthenticated scrollable-flex-column">NONE DEV AUTH</div>;
+            case AuthenticationStatus.CHECKING:
+                return <Spin />;
+            case AuthenticationStatus.AUTHENTICATED:
+                return <div className="Auth Auth-authenticated scrollable-flex-column">{this.renderAuthToolbar()}</div>;
+            case AuthenticationStatus.UNAUTHENTICATED:
+                return <div className="Auth Auth-unauthenticated scrollable-flex-column">{this.renderAuthForm()}</div>;
+            case AuthenticationStatus.ERROR:
                 return (
-                    <div className="Auth Auth-unauthorized scrollable-flex-column">
+                    <div className="Auth Auth-unauthenticated scrollable-flex-column">
                         <p>Error</p>
-                        {this.props.authorization.message}
+                        {this.props.authentication.message}
                     </div>
                 );
             default:
@@ -166,23 +124,33 @@ export default class Develop extends React.Component<DevelopProps, DevelopCompon
         }
     }
 
-    renderDevError() {
-        return <div>Dev Error</div>;
+    renderDevError(develop: DevelopStateError) {
+        return <div>Dev Error: ${develop.message}</div>;
     }
 
-    renderDevReady() {
+    renderDevWrapper(develop: DevelopStateReady) {
+        if (develop.channels === null) {
+            return;
+        }
         const params = {
-            channelId: this.props.hostChannelId
+            hostChannelId: develop.channels.hostChannelId,
+            pluginChannelId: develop.channels.pluginChannelId
         };
         const paramsString = JSON.stringify(params);
+        return <div data-params={encodeURIComponent(paramsString)} data-plugin-host="true" className="Develop">
+            {this.props.children}
+        </div>;
+    }
+
+    renderDevReady(develop: DevelopStateReady) {
         return (
-            <div data-params={encodeURIComponent(paramsString)} data-plugin-host="true" className="Develop">
+            <div className="Develop">
                 <div className="Develop-area">
                     <Tag>Develop Mode Area</Tag>
                     {this.renderTitleToolbar()}
                     {this.renderAuth()}
                 </div>
-                {this.props.children}
+                {this.renderDevWrapper(develop)}
             </div>
         );
     }
@@ -196,16 +164,8 @@ export default class Develop extends React.Component<DevelopProps, DevelopCompon
         return <Alert message={message} />;
     }
 
-    renderDev() {
-        switch (this.props.developStatus) {
-            case DevelopStatus.NONE:
-            case DevelopStatus.LOADING:
-                return this.renderDevLoading();
-            case DevelopStatus.ERROR:
-                return this.renderDevError();
-            case DevelopStatus.READY:
-                return this.renderDevReady();
-        }
+    renderDevNone() {
+        return <Alert message="None" />;
     }
 
     renderTitleToolbar() {
@@ -216,19 +176,17 @@ export default class Develop extends React.Component<DevelopProps, DevelopCompon
         );
     }
 
-    renderDebug() {
-        return (
-            <div className="Develop-debug">
-                Development: dev status: {this.props.developStatus}, channel:{this.props.hostChannelId}
-            </div>
-        );
-    }
-
     render() {
-        // if (this.props.rootState !== RootState.DEVELOP) {
-        //     return <React.Fragment>{this.props.children}</React.Fragment>;
-        // }
-        // {this.renderDebug()}
-        return <React.Fragment>{this.renderDev()}</React.Fragment>;
+        const develop = this.props.develop;
+        switch (develop.status) {
+            case DevelopStatus.NONE:
+                return this.renderDevNone();
+            case DevelopStatus.LOADING:
+                return this.renderDevLoading();
+            case DevelopStatus.ERROR:
+                return this.renderDevError(develop);
+            case DevelopStatus.READY:
+                return this.renderDevReady(develop);
+        }
     }
 }

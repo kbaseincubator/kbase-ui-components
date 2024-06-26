@@ -1,6 +1,6 @@
-import * as React from 'react';
+import { niceElapsed } from '@kbase/ui-lib/lib/time';
 import { Tooltip } from 'antd';
-import { niceElapsed } from '@kbase/ui-lib';
+import * as React from 'react';
 
 const SECOND = 1000;
 const MINUTE = 60 * SECOND;
@@ -59,7 +59,7 @@ export default class NiceElapsedTime extends React.Component<NiceElapsedTimeProp
         } else {
             elapsed = this.state.clockTime - this.props.from;
         }
-        const { label: content } = niceElapsed(elapsed, {});
+        const [content,] = niceElapsed(elapsed, {});
         if (this.props.showTooltip === false) {
             return <span>{content}</span>;
         }
@@ -75,9 +75,8 @@ export default class NiceElapsedTime extends React.Component<NiceElapsedTimeProp
         } else {
             tooltip = <span>{content}</span>;
         }
-        const { label: tooltipContent, value } = niceElapsed(elapsed, {
-            precision: this.props.precision,
-
+        const [tooltipContent,] = niceElapsed(elapsed, {
+            precision: this.props.precision
         });
         return (
             <Tooltip placement="bottomRight" title={tooltip}>

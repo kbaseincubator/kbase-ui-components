@@ -4,9 +4,9 @@
     flex-direction: column;
 }
 
-.Auth-authorized {}
+.Auth-authenticated {}
 
-.Auth-unauthorized {
+.Auth-unauthenticated {
     color: red;
     padding: 4px;
     border: 1px red solid;

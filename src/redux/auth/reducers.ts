@@ -1,20 +1,13 @@
 import { Action, Reducer } from 'redux';
-import { AuthState } from './store';
+import { AuthenticationStatus } from './store';
 import { BaseStoreState } from '../store';
-import { AuthCheckStart, AuthCheckError, AuthAuthorized, AuthUnauthorized, AuthActionType } from './actions';
+import { AuthCheckStart, AuthCheckError, AuthAuthenticated, AuthUnauthenticated, AuthActionType } from './actions';
 
 export function authCheckStart(state: BaseStoreState, action: AuthCheckStart): BaseStoreState {
     return {
         ...state,
-        auth: {
-            status: AuthState.CHECKING,
-            message: '',
-            userAuthorization: {
-                token: '',
-                username: '',
-                realname: '',
-                roles: []
-            }
+        authentication: {
+            status: AuthenticationStatus.CHECKING,
         }
     };
 }
@@ -22,26 +15,19 @@ export function authCheckStart(state: BaseStoreState, action: AuthCheckStart): B
 export function authCheckError(state: BaseStoreState, action: AuthCheckError): BaseStoreState {
     return {
         ...state,
-        auth: {
-            status: AuthState.ERROR,
-            message: action.error.message,
-            userAuthorization: {
-                token: '',
-                username: '',
-                realname: '',
-                roles: []
-            }
+        authentication: {
+            status: AuthenticationStatus.ERROR,
+            message: action.error.message
         }
     };
 }
 
-export function authAuthorized(state: BaseStoreState, action: AuthAuthorized): BaseStoreState {
+export function authAuthenticated(state: BaseStoreState, action: AuthAuthenticated): BaseStoreState {
     return {
         ...state,
-        auth: {
-            status: AuthState.AUTHORIZED,
-            message: '',
-            userAuthorization: {
+        authentication: {
+            status: AuthenticationStatus.AUTHENTICATED,
+            userAuthentication: {
                 token: action.token,
                 username: action.username,
                 realname: action.realname,
@@ -51,18 +37,11 @@ export function authAuthorized(state: BaseStoreState, action: AuthAuthorized): B
     };
 }
 
-export function authUnauthorized(state: BaseStoreState, action: AuthUnauthorized): BaseStoreState {
+export function authUnauthenticated(state: BaseStoreState, action: AuthUnauthenticated): BaseStoreState {
     return {
         ...state,
-        auth: {
-            status: AuthState.UNAUTHORIZED,
-            message: '',
-            userAuthorization: {
-                token: '',
-                username: '',
-                realname: '',
-                roles: []
-            }
+        authentication: {
+            status: AuthenticationStatus.UNAUTHENTICATED,
         }
     };
 }
@@ -76,10 +55,10 @@ const reducer: Reducer<BaseStoreState | undefined, Action> = (state: BaseStoreSt
     switch (action.type) {
         case AuthActionType.AUTH_CHECK_START:
             return authCheckStart(state, action as AuthCheckStart);
-        case AuthActionType.AUTH_AUTHORIZED:
-            return authAuthorized(state, action as AuthAuthorized);
-        case AuthActionType.AUTH_UNAUTHORIZED:
-            return authUnauthorized(state, action as AuthUnauthorized);
+        case AuthActionType.AUTH_AUTHENTICATED:
+            return authAuthenticated(state, action as AuthAuthenticated);
+        case AuthActionType.AUTH_UNAUTHENTICATED:
+            return authUnauthenticated(state, action as AuthUnauthenticated);
         case AuthActionType.AUTH_CHECK_ERROR:
             return authCheckError(state, action as AuthCheckError);
         default:

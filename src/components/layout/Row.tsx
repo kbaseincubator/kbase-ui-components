@@ -1,9 +1,9 @@
-import React from 'react';
+import { Component, PropsWithChildren } from 'react';
 import { Testhook } from '../common';
 
 
 
-export interface RowProps {
+export interface RowProps extends PropsWithChildren {
     fullheight?: boolean;
     scrollable?: boolean;
     testhook?: Testhook;
@@ -14,7 +14,7 @@ interface RowState {
 
 }
 
-export default class Row extends React.Component<RowProps, RowState> {
+export default class Row extends Component<RowProps, RowState> {
 
     render() {
         const style: React.CSSProperties = {

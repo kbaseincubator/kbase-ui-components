@@ -31,7 +31,7 @@ export default class NiceTimeDuration extends React.Component<NiceTimeDurationPr
         }
         return (
             <Tooltip placement="bottomRight" title={tooltip}>
-                {niceDuration(this.props.duration, { precision: this.props.precision })}
+                <span>{niceDuration(this.props.duration, { precision: this.props.precision })}</span>
             </Tooltip>
         );
     }

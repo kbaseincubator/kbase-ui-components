@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "outDir": "./build",
+        "outDir": "./lib",
         "target": "es6",
         "module": "commonjs",
         "moduleResolution": "node",
@@ -10,11 +10,12 @@
         "removeComments": true,
         "declaration": true,
         "sourceMap": true,
-        "jsx": "react",
+        "jsx": "react-jsx",
         "typeRoots": [
             "index.d.ts",
             "node_modules/@types"
         ],
+        "skipLibCheck": true,
         "allowSyntheticDefaultImports": true,
         "esModuleInterop": true
     },

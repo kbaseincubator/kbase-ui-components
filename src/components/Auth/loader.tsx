@@ -1,8 +1,8 @@
 import { Dispatch, Action } from 'redux';
 import { connect } from 'react-redux';
-import { Authorization } from '../../redux/auth/store';
+import { Authentication } from '../../redux/auth/store';
 import { BaseStoreState } from '../../redux/store';
-import { checkAuth, removeAuthorization, addAuthorization } from '../../redux/auth/actions';
+import { checkAuth, removeAuthentication, addAuthentication } from '../../redux/auth/actions';
 
 import AuthComponent from './view';
 export interface OwnProps {
@@ -10,19 +10,19 @@ export interface OwnProps {
 }
 
 interface StateProps {
-    authorization: Authorization;
+    authentication: Authentication;
 }
 
 interface DispatchProps {
     checkAuth: () => void;
-    onRemoveAuthorization: () => void;
-    onAddAuthorization: (token: string) => void;
+    onRemoveAuthentication: () => void;
+    onAddAuthentication: (token: string) => void;
 }
 
 function mapStateToProps(state: BaseStoreState, props: OwnProps): StateProps {
-    const { auth } = state;
+    const { authentication } = state;
     return {
-        authorization: auth
+        authentication
     };
 }
 
@@ -31,11 +31,11 @@ export function mapDispatchToProps(dispatch: Dispatch<Action>): DispatchProps {
         checkAuth: () => {
             dispatch(checkAuth() as any);
         },
-        onRemoveAuthorization: () => {
-            dispatch(removeAuthorization() as any);
+        onRemoveAuthentication: () => {
+            dispatch(removeAuthentication() as any);
         },
-        onAddAuthorization: (token: string) => {
-            dispatch(addAuthorization(token) as any);
+        onAddAuthentication: (token: string) => {
+            dispatch(addAuthentication(token) as any);
         }
     };
 }

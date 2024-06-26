@@ -1,22 +1,19 @@
 /**
  * A base react component wraps the kbase-ui integration components.
  */
-import * as React from 'react';
-import './AppBase.css';
-import "typeface-oxygen";
-import "typeface-roboto";
-import '../style/fonts.css';
+import { Component, PropsWithChildren } from 'react';
 import '../style/common.css';
-import KBaseIntegrationLoader from './Integration';
+import './AppBase.css';
+import Integration from './Integration';
 import Root from './Root';
 
-export interface AppProps { }
+export interface AppProps extends PropsWithChildren { }
 
 interface AppState {
     clicks: number;
 }
 
-export default class AppBase extends React.Component<AppProps, AppState> {
+export default class AppBase extends Component<AppProps, AppState> {
     hosted: boolean;
     constructor(props: AppProps) {
         super(props);
@@ -32,12 +29,12 @@ export default class AppBase extends React.Component<AppProps, AppState> {
     render() {
         return (
             <Root>
-                <KBaseIntegrationLoader>
+                <Integration>
                     <div className="AppBase"
                         data-k-b-testhook-component="AppBase">
                         {this.props.children}
                     </div>
-                </KBaseIntegrationLoader>
+                </Integration>
             </Root>
         );
     }

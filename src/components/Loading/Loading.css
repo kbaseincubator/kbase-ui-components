@@ -1,0 +1,16 @@
+.Loading {
+  flex: 1 1 0px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.Loading>.-container {
+  flex: auto;
+  padding: 20px;
+  margin: 10px;
+  border-radius: 8px;
+  text-align: center;
+  background-color: #fff;
+  border: 1px solid rgba(200, 200, 200, 0.5);
+}

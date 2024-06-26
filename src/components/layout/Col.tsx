@@ -1,7 +1,7 @@
-import React from 'react';
+import { Component, PropsWithChildren } from 'react';
 import { Testhook } from '../common';
 
-export interface ColProps {
+export interface ColProps extends PropsWithChildren {
     scrollable?: boolean;
     testhook?: Testhook;
     scrolling?: boolean;
@@ -11,7 +11,7 @@ interface ColState {
 
 }
 
-export default class Col extends React.Component<ColProps, ColState> {
+export default class Col extends Component<ColProps, ColState> {
     render() {
         const style: React.CSSProperties = {
             flex: '1 1 0px',

@@ -1,7 +1,7 @@
 import { Action, Reducer } from 'redux';
 import { RootState } from './store';
 import { StartHostedEnvironment, StartDevelopmentEnvironment } from './actions';
-import { BaseStoreState, makeBaseStoreState } from '../store';
+import { BaseStoreState } from '../store';
 import { RootActionType } from '../root/actions';
 
 function startHostedEnvironment(state: BaseStoreState, action: StartHostedEnvironment): BaseStoreState {
@@ -10,7 +10,7 @@ function startHostedEnvironment(state: BaseStoreState, action: StartHostedEnviro
         root: {
             ...state.root,
             state: RootState.HOSTED,
-            hostChannelId: action.params.channelId
+            hostChannelId: action.params.hostChannelId
         }
     };
 }

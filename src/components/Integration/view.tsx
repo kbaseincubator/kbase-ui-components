@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Channel } from '@kbase/ui-lib';
 import './style.css';
 
 // This is the "loader" component, which really just waits until the app is ready
@@ -8,27 +7,9 @@ import './style.css';
 // comm, etc.
 // TODO: auth is separate, but we maybe we should merge them together...
 
-// export interface IFrameParams {
-//     channelId: string;
-//     frameId: string;
-//     params: {
-//         groupsServiceURL: string;
-//         userProfileServiceURL: string;
-//         workspaceServiceURL: string;
-//         serviceWizardURL: string;
-//         authServiceURL: string;
-//         narrativeMethodStoreURL: string;
-//         originalPath: string | null;
-//         view: string | null;
-//         viewParams: any;
-//     };
-//     parentHost: string;
-// }
 
-export interface KBaseIntegrationProps {
-    hostChannelId: string | null;
+export interface KBaseIntegrationProps extends React.PropsWithChildren {
     title: string;
-    // iframeParams: IFrameParams;
 }
 
 interface KBaseIntegrationState {
@@ -36,78 +17,13 @@ interface KBaseIntegrationState {
 }
 
 export default class KBaseIntegration extends React.Component<KBaseIntegrationProps, KBaseIntegrationState> {
-    channel: Channel | null;
-    hosted: boolean;
-    // params: IFrameParams;
-
     constructor(props: KBaseIntegrationProps) {
         super(props);
-
-        // this.params = this.getParamsFromIFrame();
 
         this.state = {
             ready: false
         };
-
-        this.hosted = window.frameElement ? true : false;
-
-        this.channel = null;
     }
-
-    // getParamsFromIFrame(): IFrameParams {
-    //     if (!window.frameElement) {
-    //         // return null
-    //         throw new Error('Not in an iframe');
-    //     }
-    //     if (!window.frameElement.hasAttribute('data-params')) {
-    //         // throw new Error('No params found in window!!');
-    //         // return null
-    //         throw new Error('No data-params on iframe');
-    //     }
-    //     const params = window.frameElement.getAttribute('data-params');
-    //     if (params === null) {
-    //         // throw new Error('No params found in window!')
-    //         // return null
-    //         throw new Error('data-params is null');
-    //     }
-    //     const iframeParams = JSON.parse(decodeURIComponent(params)) as IFrameParams;
-    //     return iframeParams;
-    // }
-
-    // setupChannel() {
-    //     if (this.props.channelId) {
-    //         this.channel = new Channel({
-    //             channelId: this.props.channelId
-    //         });
-
-    //         this.channel.on(
-    //             'navigate',
-    //             ({ to, params }) => {},
-    //             (err) => {
-    //                 console.error('Error processing "navigate" message');
-    //             }
-    //         );
-
-    //         this.channel.on(
-    //             'start',
-    //             (params: any) => {
-    //                 console.log('start?', params);
-    //             },
-    //             (err: Error) => {
-    //                 console.error('Error starting...', err);
-    //             }
-    //         );
-
-    //         this.channel.start();
-
-    //         this.channel.send('ready', {
-    //             channelId: this.props.channelId,
-    //             greeting: 'heloooo'
-    //         });
-    //     }
-    // }
-
-    teardownChannel() { }
 
     componentDidMount() {
         this.setState({
@@ -115,24 +31,12 @@ export default class KBaseIntegration extends React.Component<KBaseIntegrationPr
         });
     }
 
-    componentWillUnmount() {
-        this.teardownChannel();
-    }
-
-    // renderReadyx() {
-    //     return <React.Fragment>{this.props.children}</React.Fragment>;
-    // }
-
-    // renderHosted() {
-    //     return <div style={{ border: '1px solid red', padding: '1em' }}>{this.renderTitleToolbar()}</div>;
-    // }
-
     renderReady() {
         return <React.Fragment>{this.props.children}</React.Fragment>;
     }
 
     renderNotReady() {
-        return <div data-k-b-testhook-element="notready">Loading...</div>;
+        return <div data-k-b-testhook-element="notready"></div>;
     }
 
     render() {
